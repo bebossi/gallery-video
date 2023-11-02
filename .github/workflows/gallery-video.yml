@@ -1,0 +1,43 @@
+name: Gallery video actions
+on: push
+jobs:
+  Prettier-config:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Check Out Code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Debug glob pattern
+        run: echo "${{ github.workspace }}/app/**/*.{ts,tsx}"
+
+      - name: Change to repository root
+        run: cd "${{ github.workspace }}"
+
+      - name: Debug glob pattern
+        run: echo "./app/**/*.{ts,tsx}"
+
+      - name: Format JavaScript code
+        run: npm run prettier
+
+      - name: Check Prettier
+        run: npx prettier --check .
+      - name: Format prettier
+        uses: actionsx/prettier@v2
+        with:
+          args: --write .
+
+      - name: Debug Prettier
+        run: echo "Prettier output:" && npx prettier --write .
+      - name: prettier --write .
+        uses: ./
+        with:
+          args: --write .
