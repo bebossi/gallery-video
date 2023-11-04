@@ -27,7 +27,7 @@ model Video {
   thumbnailUrl    String?
   thumbnailWidth  Int?
   thumbnailHeight Int?
-  playlist        Playlist[]
+  playlists       Playlist[]
   channelId       String
 
   channel         Channel           @relation(fields: [channelId], references: [id])

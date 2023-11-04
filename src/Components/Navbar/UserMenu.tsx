@@ -15,9 +15,18 @@ const UserMenu = () => {
   return (
     <div className="relative flex gap-x-12">
       <div className="flex flex-row gap-x-4 items-center justify-center">
-        {/* <div className="flex flex-row items-center gap-3">Videos</div> */}
-        <MenuItem label="Videos" onClick={() => {}} />
-        <MenuItem label="Playlist" onClick={() => {}} />
+        <MenuItem
+          label="Videos"
+          onClick={() => {
+            navigate.push('/videos');
+          }}
+        />
+        <MenuItem
+          label="Playlist"
+          onClick={() => {
+            navigate.push('/playlistVideos');
+          }}
+        />
         <MenuItem label="Channels" onClick={() => {}} />
         <MenuItem label="Videos" onClick={() => {}} />
       </div>

@@ -17,8 +17,9 @@ const PlaylistVideosPage = () => {
     } catch (err) {
       console.log(err);
       throw err;
-    }
+    } 
   };
+  if (!videos) <div>No videos availiable</div>;
 
   return (
     <div>
