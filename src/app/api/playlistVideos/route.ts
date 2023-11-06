@@ -28,7 +28,6 @@ export async function GET(req: NextApiRequest) {
 
     for (const playlistItem of playlistItems) {
       const channelId = playlistItem.snippet.videoOwnerChannelId;
-      console.log(channelId);
       const channelExists = await prismadb.channel.findUnique({
         where: {
           id: channelId,
@@ -40,6 +39,11 @@ export async function GET(req: NextApiRequest) {
           data: {
             id: channelId,
             title: playlistItem.snippet.videoOwnerChannelTitle,
+            playlists: {
+              connect: {
+                id: playlistId,
+              },
+            },
           },
         });
       }
@@ -61,7 +65,7 @@ export async function GET(req: NextApiRequest) {
             thumbnailWidth: playlistItem.snippet.thumbnails.default.width,
             thumbnailHeight: playlistItem.snippet.thumbnails.default.height,
             channelId,
-            playlist: {
+            playlists: {
               connect: {
                 id: playlistId,
               },
