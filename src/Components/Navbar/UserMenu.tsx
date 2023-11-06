@@ -22,13 +22,23 @@ const UserMenu = () => {
           }}
         />
         <MenuItem
-          label="Playlist"
+          label="Playlists"
+          onClick={() => {
+            navigate.push('/playlists');
+          }}
+        />
+        <MenuItem
+          label="Channels"
+          onClick={() => {
+            navigate.push('/channels');
+          }}
+        />
+        <MenuItem
+          label="Insert your playlist"
           onClick={() => {
             navigate.push('/playlistVideos');
           }}
         />
-        <MenuItem label="Channels" onClick={() => {}} />
-        <MenuItem label="Videos" onClick={() => {}} />
       </div>
       <div className="m-4 hover:cursor-pointer">
         <AiOutlineMenu onClick={toggleOpen} size={25} />
