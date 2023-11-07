@@ -6,6 +6,7 @@ export async function GET() {
     const playlists = await prismadb.playlist.findMany({
       include: {
         videos: true,
+        channel: true,
       },
     });
 

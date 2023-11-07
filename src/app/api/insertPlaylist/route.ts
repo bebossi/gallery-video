@@ -5,8 +5,8 @@ import { NextResponse } from 'next/server';
 import { getVideosFromPlaylist } from '../playlistVideos/route';
 
 export async function GET(req: NextApiRequest) {
-  console.log('aqui');
   const { searchParams } = new URL(req.url!);
+  console.log('search params:', searchParams);
   const playlistId = searchParams.get('id') as string;
   const url = `https://youtube.googleapis.com/youtube/v3/playlists?part=snippet%2CcontentDetails%2C%20status%2C%20player%2C%20localizations%2C%20id&id=${playlistId}&key=${process.env.API_KEY_YOUTUBE}`;
 
@@ -43,7 +43,6 @@ export async function GET(req: NextApiRequest) {
         },
       });
     }
-    console.log(response.data);
     await getVideosFromPlaylist(playlistId);
 
     return NextResponse.json(response.data);
