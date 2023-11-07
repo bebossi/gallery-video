@@ -2,6 +2,7 @@ import prismadb from '@/src/lib/prismadb';
 import axios from 'axios';
 import { NextApiRequest } from 'next';
 import { NextResponse } from 'next/server';
+import { GET } from '../videos/route';
 
 // export async function GET(req: NextApiRequest) {
 //   const { searchParams } = new URL(req.url!);
@@ -123,8 +124,10 @@ export async function getVideosFromPlaylist(playlistId: string) {
         });
       }
     }
-    // console.log(response.data);
-
+    const videosId = playlistItems.map((playlistItem: any) => {
+      return playlistItem.contentDetails.videoId;
+    });
+    await GET(videosId);
     return NextResponse.json(response.data);
   } catch (err) {
     console.log(err);
