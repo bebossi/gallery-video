@@ -2,8 +2,8 @@ import prismadb from '@/src/lib/prismadb';
 import axios from 'axios';
 import { NextResponse } from 'next/server';
 
-export async function GET(videoIds: string[]) {
-  const videoUrls = videoIds.map((id) => {
+export async function getVideosDataFromYT(videosIds: string[]) {
+  const videoUrls = videosIds.map((id) => {
     return `id=${id}`;
   });
   const joinUrl = videoUrls.join('&');

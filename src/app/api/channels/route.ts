@@ -1,7 +1,7 @@
 import prismadb from '@/src/lib/prismadb';
 import { NextApiRequest } from 'next';
 
-export async function GET() {
+export async function getChannelsFromDB() {
   try {
     const channels = await prismadb.channel.findMany({
       include: {

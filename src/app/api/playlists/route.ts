@@ -1,7 +1,7 @@
 import prismadb from '@/src/lib/prismadb';
 import { NextApiRequest } from 'next';
 
-export async function GET() {
+export async function getPlaylistsFromDB() {
   try {
     const playlists = await prismadb.playlist.findMany({
       include: {
