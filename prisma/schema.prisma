@@ -17,40 +17,56 @@ model User {
   username  String
   createdAt DateTime
   updatedAt DateTime
+  // videos Video[]
+  // playlists Playlist[]
+  // channels Channel[]
 }
 
 model Video {
-  id              String     @id
+  id              String  @id
   url             String?
   title           String
   description     String
   thumbnailUrl    String?
   thumbnailWidth  Int?
   thumbnailHeight Int?
-  playlists       Playlist[]
   channelId       String
+  viewCount       String?
+  likeCount       String?
+  commentCount    String?
+  player          String?
 
-  channel         Channel           @relation(fields: [channelId], references: [id])
-  playlistsVideos PlaylistsVideos[]
+  playlists Playlist[]
+  channel   Channel    @relation(fields: [channelId], references: [id])
 }
 
 model Channel {
-  id     String  @id
-  title  String?
-  videos Video[]
+  id              String  @id
+  title           String?
+  description     String?
+  customUrl       String?
+  thumbnailUrl    String?
+  thumbnailWidth  Int?
+  thumbnailHeight Int?
+  viewCount       String?
+  subscriberCount String?
+  keyWords        String?
+  image           String?
+
+  videoCount String?
+  videos     Video[]
+  playlists  Playlist[]
 }
 
 model Playlist {
-  id              String            @id
+  id              String    @id
+  name            String?
+  description     String?
+  status          String?
+  htmlPlayer      String?
+  thumbnailUrl    String?
+  thumbnailWidth  Int?
+  thumbnailHeight Int?
   videos          Video[]
-  playlistsVideos PlaylistsVideos[]
-}
-
-model PlaylistsVideos {
-  id         String @id @default(uuid())
-  playlistId String
-  videoId    String
-
-  playlist Playlist @relation(fields: [playlistId], references: [id])
-  video    Video    @relation(fields: [videoId], references: [id])
+  channel         Channel[]
 }
