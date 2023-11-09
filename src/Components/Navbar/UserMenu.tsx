@@ -36,7 +36,7 @@ const UserMenu = () => {
         <MenuItem
           label="Insert your playlist"
           onClick={() => {
-            navigate.push('/playlistVideos');
+            navigate.push('/insertPlaylistId');
           }}
         />
       </div>
