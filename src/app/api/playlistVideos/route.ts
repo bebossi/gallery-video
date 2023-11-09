@@ -16,7 +16,25 @@ export async function getVideosFromPlaylist(playlistId: string) {
         where: {
           id: playlistItem.contentDetails.videoId,
         },
+        include: {
+          playlists: true,
+          channel: true,
+        },
       });
+      if (video) {
+        await prismadb.video.update({
+          where: {
+            id: playlistItem.contentDetails.videoId,
+          },
+          data: {
+            playlists: {
+              connect: {
+                id: playlistId,
+              },
+            },
+          },
+        });
+      }
 
       if (!video) {
         await prismadb.video.create({

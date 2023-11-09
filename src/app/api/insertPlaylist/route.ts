@@ -3,9 +3,8 @@ import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { NextResponse } from 'next/server';
 import { getVideosFromPlaylist } from '../playlistVideos/route';
-import { getChannelDataFromYt } from '../channelFromYT/route';
 
-export async function insertPlaylistId(req: NextApiRequest) {
+export async function GET(req: NextApiRequest) {
   const { searchParams } = new URL(req.url!);
   const playlistId = searchParams.get('id') as string;
   const url = `https://youtube.googleapis.com/youtube/v3/playlists?part=snippet%2CcontentDetails%2C%20status%2C%20player%2C%20localizations%2C%20id&id=${playlistId}&key=${process.env.API_KEY_YOUTUBE}`;
