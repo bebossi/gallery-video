@@ -43,9 +43,9 @@ export async function getVideosFromPlaylist(playlistId: string) {
             url: playlistItem.snippet.resourceId.videoId,
             title: playlistItem.snippet.title,
             description: playlistItem.snippet.description,
-            thumbnailUrl: playlistItem.snippet.thumbnails.default.url,
-            thumbnailWidth: playlistItem.snippet.thumbnails.default.width,
-            thumbnailHeight: playlistItem.snippet.thumbnails.default.height,
+            thumbnailUrl: playlistItem.snippet.thumbnails.medium.url,
+            thumbnailWidth: playlistItem.snippet.thumbnails.medium.width,
+            thumbnailHeight: playlistItem.snippet.thumbnails.medium.height,
             playlists: {
               connect: {
                 id: playlistId,
