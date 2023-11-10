@@ -27,23 +27,26 @@ const PlaylistOfVideo: React.FC<PlaylistOfVideoProps> = ({
         <h1 className="font-bold text-lg">{playlist?.name}</h1>
         <h2>{playlist?.channel[0].title}</h2>
       </div>
-      <div>
+      <div className="h-fit">
         {playlist?.videos.map((playlistVideo: Video) => (
           <Link href={`/playlists/${playlistId}/${playlistVideo.id}`}>
             <div
               key={playlistVideo.id}
               className={`${
                 video.id === playlistVideo.id ? 'bg-slate-900' : ''
-              }  flex items-center rounded-md p-1  gap-x-4`}
+              }  flex items-center h-full p-2  gap-x-4`}
             >
-              <p>
+              <p className="h-2 w-2">
                 {video.id === playlistVideo.id ? (
                   <AiFillCaretRight />
                 ) : (
                   playlist.videos.indexOf(playlistVideo) + 1
                 )}
               </p>
-              <img src={playlistVideo.thumbnailUrl!} />
+              <img
+                className="rounded-md h-16 "
+                src={playlistVideo.thumbnailUrl!}
+              />
               <p className="line-clamp-1">{playlistVideo.title}</p>
             </div>
           </Link>
