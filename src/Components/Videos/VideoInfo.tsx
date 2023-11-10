@@ -2,7 +2,12 @@
 
 import { Channel, Video } from '@prisma/client';
 import { useState } from 'react';
-import { AiOutlineDislike, AiOutlineLike } from 'react-icons/ai';
+import {
+  AiOutlineLike,
+  AiOutlineDislike,
+  AiFillLike,
+  AiFillDislike,
+} from 'react-icons/ai';
 import { LuUserCircle2 } from 'react-icons/lu';
 
 interface VideoInfoProps {
@@ -16,9 +21,21 @@ const VideoInfo: React.FC<VideoInfoProps> = ({ video }) => {
   const handleShowDetails = () => {
     setShowDetails((value) => !value);
   };
+  const createIframeElement = (html: any) => {
+    return {
+      __html: html,
+    };
+  };
+  const modifiedHtml = video?.player
+    ?.replace('width="480"', 'width="1200"')
+    .replace('height="270"', 'height="600"');
   return (
-    <div className="max-w-6xl  p-3 rounded-md">
+    <div className="max-w-7xl p-3 rounded-md">
       <div>
+        <div
+          className="border border-slate-200 h-fit w-fit rounded-sm"
+          dangerouslySetInnerHTML={createIframeElement(modifiedHtml)}
+        />
         <h1 className="text-2xl m-2">{video?.title}</h1>
         <div className="flex  items-center justify-between">
           <div className="flex gap-x-6 items-center">
