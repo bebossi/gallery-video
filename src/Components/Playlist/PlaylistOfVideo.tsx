@@ -24,7 +24,9 @@ const PlaylistOfVideo: React.FC<PlaylistOfVideoProps> = ({
   return (
     <div className="border-2 border-slate-300 rounded-xl  max-w-xl">
       <div className="p-6 bg-slate-900">
-        <h1 className="font-bold text-lg">{playlist?.name}</h1>
+        <Link href={`/playlists/${playlistId}`}>
+          <h1 className="font-bold text-lg">{playlist?.name}</h1>
+        </Link>
         <h2>{playlist?.channel[0].title}</h2>
       </div>
       <div className="h-fit">
