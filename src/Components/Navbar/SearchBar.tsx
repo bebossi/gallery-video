@@ -1,6 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { LuSearch } from 'react-icons/lu';
 
 const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -10,17 +11,23 @@ const SearchBar = () => {
     e.preventDefault();
 
     const encodedSearchQuery = encodeURI(searchQuery);
-    router.push(`/search/q=${encodedSearchQuery}`);
+    router.push(`/search?q=${encodedSearchQuery}`);
   };
   return (
-    <form onSubmit={onSearch} className="flex justify-center w-2/3">
+    <form
+      onSubmit={onSearch}
+      className="flex justify-between items-center w-1/3   rounded-full"
+    >
       <input
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         type="text"
-        className="px-5 py-1 w-2/3 "
+        className=" h-full w-full border border-slate-200 rounded-l-full p-2  bg-black"
         placeholder="What are you looking for?"
       />
+      <button className="h-full text-white bg-black border border-l-0 border-slate-200 rounded-r-full p-1 pr-3">
+        <LuSearch size={25} />
+      </button>
     </form>
   );
 };

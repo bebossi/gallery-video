@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import Logo from './Logo';
 import UserMenu from './UserMenu';
+import SearchBar from './SearchBar';
 
 const Navbar = () => {
   return (
@@ -11,6 +12,7 @@ const Navbar = () => {
           <Link href={`/`}>
             <Logo />
           </Link>
+          <SearchBar />
           <UserMenu />
         </div>
       </div>
