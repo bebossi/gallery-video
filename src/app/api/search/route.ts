@@ -1,37 +1,34 @@
 import prismadb from '@/src/lib/prismadb';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function searchResults(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { q: query } = req.query;
+    const { searchParams } = new URL(req.url!);
+    const query = searchParams.get('q');
 
     const playlists = await prismadb.playlist.findMany({
       where: {
-        OR: [
-          {
-            name: {
-              contains: query as string,
-              mode: 'insensitive',
-            },
-          },
-          {
-            channel: {
-              every: {
-                title: query as string,
-              },
-            },
-          },
-          {
-            videos: {
-              every: {
-                title: query as string,
-              },
-            },
-          },
-        ],
+        name: {
+          contains: query as string,
+        },
       },
     });
-    return res.status(200).json(playlists);
+    const channels = await prismadb.channel.findMany({
+      where: {
+        title: {
+          contains: query as string,
+        },
+      },
+    });
+    const videos = await prismadb.video.findMany({
+      where: {
+        title: {
+          contains: query as string,
+        },
+      },
+    });
+    return NextResponse.json({ playlists, videos, channels });
   } catch (err) {
     console.log(err);
   }

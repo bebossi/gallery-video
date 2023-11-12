@@ -26,9 +26,9 @@ export async function GET(req: NextApiRequest) {
           description: playlistInfo.snippet.description,
           htmlPlayer: playlistInfo.player.embedHtml,
           status: playlistInfo.status.privacyStatus,
-          thumbnailUrl: playlistInfo.snippet.thumbnails.default.url,
-          thumbnailWidth: playlistInfo.snippet.thumbnails.default.width,
-          thumbnailHeight: playlistInfo.snippet.thumbnails.default.height,
+          thumbnailUrl: playlistInfo.snippet.thumbnails.medium.url,
+          thumbnailWidth: playlistInfo.snippet.thumbnails.medium.width,
+          thumbnailHeight: playlistInfo.snippet.thumbnails.medium.height,
           channel: {
             connectOrCreate: {
               where: {
