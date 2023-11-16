@@ -17,9 +17,6 @@ model User {
   username  String
   createdAt DateTime
   updatedAt DateTime
-  // videos Video[]
-  // playlists Playlist[]
-  // channels Channel[]
 }
 
 model Video {
@@ -53,13 +50,14 @@ model Channel {
   keyWords        String?
   image           String?
 
-  videoCount String?
-  videos     Video[]
-  playlists  Playlist[]
+  videoCount         String?
+  videos             Video[]
+  myPlaylists        Playlist[] @relation(name: "OwnerChannel")
+  playlistFromOthers Playlist[] @relation(name: "PlaylistToChannel")
 }
 
 model Playlist {
-  id              String    @id
+  id              String  @id
   name            String?
   description     String?
   status          String?
@@ -67,6 +65,15 @@ model Playlist {
   thumbnailUrl    String?
   thumbnailWidth  Int?
   thumbnailHeight Int?
-  videos          Video[]
-  channel         Channel[]
+
+  ownerChannelId String
+  ownerChannel   Channel @relation(name: "OwnerChannel", fields: [ownerChannelId], references: [id])
+
+  videos   Video[]
+  channels Channel[] @relation(name: "PlaylistToChannel")
+}
+
+model SearchQuery {
+  id    String @id @default(uuid())
+  query String
 }
