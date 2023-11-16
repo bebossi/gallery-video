@@ -6,7 +6,8 @@ export async function getPlaylistsFromDB() {
     const playlists = await prismadb.playlist.findMany({
       include: {
         videos: true,
-        channel: true,
+        channels: true,
+        ownerChannel: true,
       },
     });
 
