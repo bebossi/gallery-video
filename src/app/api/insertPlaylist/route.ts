@@ -29,18 +29,6 @@ export async function GET(req: NextApiRequest) {
           thumbnailUrl: playlistInfo.snippet.thumbnails.medium.url,
           thumbnailWidth: playlistInfo.snippet.thumbnails.medium.width,
           thumbnailHeight: playlistInfo.snippet.thumbnails.medium.height,
-          // channels: {
-          //   connectOrCreate: {
-          //     where: {
-          //       id: playlistInfo.snippet.channelId,
-          //     },
-          //     create: {
-          //       id: playlistInfo.snippet.channelId,
-          //       title: playlistInfo.snippet.channelTitle,
-          //     },
-          //   },
-          // },
-          // ownerChannelId: playlistInfo.snippet.channelId,
           ownerChannel: {
             connectOrCreate: {
               where: {
