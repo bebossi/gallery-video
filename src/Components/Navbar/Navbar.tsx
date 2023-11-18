@@ -3,13 +3,15 @@ import Link from 'next/link';
 import Logo from './Logo';
 import UserMenu from './UserMenu';
 import SearchBar from './SearchBar';
+import Sidebar from '../Sidebar/Sidebar';
 
 const Navbar = () => {
   return (
     <div className=" w-full z-10 shadow-sm">
       <div className="py-5 border-b-[0.5px]">
-        <div className="flex flex-row items-center justify-between gap-2 md:gap-0">
-          <Link href={`/`}>
+        <Sidebar />
+        <div className="flex items-center justify-around gap-3 ">
+          <Link className="mx-3" href={`/`}>
             <Logo />
           </Link>
           <SearchBar />
