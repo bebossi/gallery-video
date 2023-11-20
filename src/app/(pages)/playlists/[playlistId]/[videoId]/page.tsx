@@ -24,18 +24,19 @@ const VideoPage: React.FC<VideoPageProps> = async ({ params }) => {
       playlists: {
         include: {
           videos: true,
-          channel: true,
+          channels: true,
+          ownerChannel: true,
         },
       },
     },
   });
 
   return (
-    <div className="flex items-center ">
+    <div className="flex items-start ">
       <div className="py-28 flex justify-end w-full">
         <VideoInfo video={video!} />
       </div>
-      <div className="flex flex-col w-1/2 h-full items-start justify-center">
+      <div className="flex flex-col w-1/2 h-full py-28 ">
         <PlaylistOfVideo video={video!} playlistId={params.playlistId} />
       </div>
     </div>
