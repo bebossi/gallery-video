@@ -27,6 +27,7 @@ export async function getVideosFromPlaylist(playlistId: string) {
             id: playlistItem.contentDetails.videoId,
           },
           data: {
+            publishedAt: playlistItem.snippet.publishedAt,
             playlists: {
               connect: {
                 id: playlistId,
@@ -46,6 +47,7 @@ export async function getVideosFromPlaylist(playlistId: string) {
             thumbnailUrl: playlistItem.snippet.thumbnails.medium.url,
             thumbnailWidth: playlistItem.snippet.thumbnails.medium.width,
             thumbnailHeight: playlistItem.snippet.thumbnails.medium.height,
+            publishedAt: playlistItem.snippet.publishedAt,
             playlists: {
               connect: {
                 id: playlistId,
