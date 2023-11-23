@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from '@/src/lib/utils';
 import Link from 'next/link';
 import { useState } from 'react';
 import {
@@ -31,7 +32,10 @@ const Sidebar = () => {
         <>
           <aside
             id="sidebar-multi-level-sidebar"
-            className="relative top-[10rem] left-0 z-50 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+            className={cn(
+              'fixed top-[10rem] left-0 z-50 w-64 h-screen transition-transform translate-x-0 duration-200 ease-in-out',
+              showSidebar ? 'mr-[50rem]' : '',
+            )}
             aria-label="Sidebar"
           >
             <div className="h-full px-3 py-4 overflow-y-auto bg-black ">
