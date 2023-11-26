@@ -9,23 +9,71 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
 
     const playlists = await prismadb.playlist.findMany({
       where: {
-        name: {
-          contains: query as string,
-        },
+        OR: [
+          {
+            name: {
+              contains: query as string,
+              mode: 'insensitive',
+            },
+          },
+          {
+            description: {
+              contains: query as string,
+              mode: 'insensitive',
+            },
+          },
+        ],
+      },
+      include: {
+        ownerChannel: true,
+        videos: true,
       },
     });
+
     const channels = await prismadb.channel.findMany({
       where: {
-        title: {
-          contains: query as string,
-        },
+        OR: [
+          {
+            title: {
+              contains: query as string,
+              mode: 'insensitive',
+            },
+          },
+
+          {
+            keyWords: {
+              contains: query as string,
+              mode: 'insensitive',
+            },
+          },
+        ],
+      },
+      orderBy: {
+        viewCount: 'desc',
       },
     });
     const videos = await prismadb.video.findMany({
       where: {
-        title: {
-          contains: query as string,
-        },
+        OR: [
+          {
+            title: {
+              contains: query as string,
+              mode: 'insensitive',
+            },
+          },
+          {
+            tags: {
+              has: query as string,
+            },
+          },
+        ],
+      },
+      orderBy: {
+        viewCount: 'desc',
+        // likeCount: 'desc',
+      },
+      include: {
+        channel: true,
       },
     });
     return NextResponse.json({ playlists, videos, channels });
