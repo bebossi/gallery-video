@@ -23,14 +23,14 @@ const ChannelPlaylists: React.FC<ChannelVideoProps> = ({ channel }) => {
     <div className="flex flex-col ">
       {channel.myPlaylists.map((playlist) => (
         <div key={playlist.id} className="flex flex-col ">
-          <h1 className="text-2xl my-3">{playlist.name}</h1>
+          <h1 className="text-2xl my-[1rem]">{playlist.name}</h1>
           <div className="flex">
             <Swiper
               breakpoints={{
                 480: { slidesPerView: 1, spaceBetween: 0 },
                 760: { slidesPerView: 3, spaceBetween: 0 },
                 1024: { slidesPerView: 5, spaceBetween: 0 },
-                1280: { slidesPerView: 5, spaceBetween: 0 },
+                1280: { slidesPerView: 6, spaceBetween: 0 },
               }}
               loop
               centeredSlides
@@ -46,7 +46,7 @@ const ChannelPlaylists: React.FC<ChannelVideoProps> = ({ channel }) => {
                   <SwiperSlide className="" key={video.id}>
                     <div
                       key={video.id}
-                      className=" flex flex-col gap-3 w-[18rem] h-[18rem] hover:cursor-pointer"
+                      className="gap-3 w-[18rem] h-[18rem] hover:cursor-pointer"
                     >
                       <img
                         className="md:w-[10rem] lg:w-[15rem] xl:w-[18rem] rounded-2xl"

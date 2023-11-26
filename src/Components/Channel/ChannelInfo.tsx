@@ -8,7 +8,7 @@ const ChannelInfo: React.FC<ChannelInfoProps> = ({ channel }) => {
   return (
     <div className="p-1">
       <div
-        className="bg-cover bg-center h-[10rem] w-auto lg:w-[40rem] xl:w-[50rem] 2xl:w-[70rem] rounded-3xl mb-3"
+        className="bg-cover bg-center h-[5rem] lg:h-[14rem] w-full rounded-3xl mb-3"
         style={{ backgroundImage: `url(${channel.image})` }}
       ></div>
       <div className="flex items-center gap-x-[1rem] w-fit h-fit">

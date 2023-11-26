@@ -10,7 +10,7 @@ const DisplayChannel: React.FC<ChannelProps> = ({ channel }) => {
     <Link key={channel.id} href={`/channels/${channel.id}`}>
       <div
         key={channel.id}
-        className="flex w-full items-center justify-center "
+        className="flex w-full items-center justify-center my-[1rem]"
       >
         <div className="w-[8rem] sm:w-[9-rem] md:w-[12rem] lg:w-[15rem]">
           <img
