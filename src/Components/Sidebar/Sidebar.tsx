@@ -1,8 +1,9 @@
 'use client';
 
+import useSearchModal from '@/src/Hooks/useSearchModal';
+import useSidebar from '@/src/Hooks/useSideBar';
 import { cn } from '@/src/lib/utils';
 import Link from 'next/link';
-import { useState } from 'react';
 import {
   AiOutlineMenu,
   AiFillVideoCamera,
@@ -11,30 +12,32 @@ import {
 import { RiPlayList2Fill, RiBarcodeBoxFill } from 'react-icons/ri';
 
 const Sidebar = () => {
-  const [showSidebar, setShowSidebar] = useState(false);
-  const toogleSidebar = () => {
-    setShowSidebar((value) => !value);
-  };
+  const sideBar = useSidebar();
+  const searchModal = useSearchModal();
 
   return (
     <>
-      <button
-        onClick={toogleSidebar}
-        data-drawer-target="sidebar-multi-level-sidebar"
-        data-drawer-toggle="sidebar-multi-level-sidebar"
-        aria-controls="sidebar-multi-level-sidebar"
-        type="button"
-        className="absolute inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-      >
-        <AiOutlineMenu size={20} />
-      </button>
-      {showSidebar ? (
+      {!searchModal.isOpen && (
+        <>
+          <button
+            onClick={sideBar.toggleSidebar}
+            data-drawer-target="sidebar-multi-level-sidebar"
+            data-drawer-toggle="sidebar-multi-level-sidebar"
+            aria-controls="sidebar-multi-level-sidebar"
+            type="button"
+            className="fixed top-9 left-0 inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+          >
+            <AiOutlineMenu size={20} />
+          </button>
+        </>
+      )}
+      {sideBar.isOpen ? (
         <>
           <aside
             id="sidebar-multi-level-sidebar"
             className={cn(
-              'fixed top-[10rem] left-0 z-50 w-64 h-screen transition-transform translate-x-0 duration-200 ease-in-out',
-              showSidebar ? 'mr-[50rem]' : '',
+              'fixed top-[9.5rem] left-0 z-50 w-64 h-screen transition-transform translate-x-0 duration-200 ease-in-out',
+              sideBar.isOpen ? 'mr-[50rem]' : '',
             )}
             aria-label="Sidebar"
           >
@@ -50,18 +53,22 @@ const Sidebar = () => {
                   </Link>
                 </li>
                 <li>
-                  <button
+                  <Link
+                    className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                    href="/playlists"
+                  >
+                    {/* <button
                     type="button"
                     className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                     aria-controls="dropdown-example"
                     data-collapse-toggle="dropdown-example"
-                  >
+                  > */}
                     <RiPlayList2Fill />
-                    <span className="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">
-                      Playlists
-                    </span>
-                  </button>
-                  <ul id="dropdown-example" className="hidden py-2 space-y-2">
+                    <span className=" ms-3">Playlists</span>
+                  </Link>
+
+                  {/* </button> */}
+                  {/* <ul id="dropdown-example" className="hidden py-2 space-y-2">
                     <li>
                       <Link
                         href="/"
@@ -86,11 +93,11 @@ const Sidebar = () => {
                         Invoice
                       </Link>
                     </li>
-                  </ul>
+                  </ul> */}
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="/channels"
                     className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                   >
                     <AiOutlineUser />
@@ -115,7 +122,7 @@ const Sidebar = () => {
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="/insertPlaylistId"
                     className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                   >
                     <RiBarcodeBoxFill />
