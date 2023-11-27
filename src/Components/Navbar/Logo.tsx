@@ -4,13 +4,7 @@ import logo from '../../public/logo.jpg';
 const Logo = () => {
   return (
     <div>
-      <Image
-        className="rounded-full m-2 ml-12"
-        width={90}
-        height={90}
-        src={logo}
-        alt="Logo"
-      />
+      <Image className="rounded-full w-14 h-14" src={logo} alt="Logo" />
     </div>
   );
 };

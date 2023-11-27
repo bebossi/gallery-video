@@ -1,21 +1,29 @@
 'use client';
+
 import Link from 'next/link';
 import Logo from './Logo';
-// import UserMenu from './UserMenu';
 import SearchBar from './SearchBar';
+import clsx from 'clsx';
+import useSearchModal from '@/src/Hooks/useSearchModal';
 
 const Navbar = () => {
+  const { isOpen } = useSearchModal();
+
   return (
-    <div className="fixed bg-black w-full  shadow-sm">
-      <div className="py-5 border-b-[0.5px]">
-        <div className="flex items-center justify-evenly  ">
+    <div
+      className={clsx(
+        'fixed bg-black w-full h-fit  shadow-sm',
+        isOpen && 'hidden',
+      )}
+    >
+      <div className="py-5">
+        <div className="flex items-center justify-center gap-x-[1.8rem]">
           <div>
-            <Link href={`/`}>
+            <Link className="fixed top-9 left-16" href={`/`}>
               <Logo />
             </Link>
           </div>
           <SearchBar />
-          {/* <UserMenu /> */}
         </div>
       </div>
     </div>
