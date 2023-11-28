@@ -1,4 +1,5 @@
 'use client';
+
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Navbar from '../Components/Navbar/Navbar';
@@ -7,6 +8,7 @@ import useSidebar from '../Hooks/useSideBar';
 import { usePathname } from 'next/navigation';
 import Sidebar from '../Components/Sidebar/Sidebar';
 import FilterModal from '../Components/Filters/FilterModal';
+import SearchModal from '../Components/Search/SearchModal';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,6 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const { isOpen } = useSidebar();
+
   const pathname = usePathname();
   const isVideoPage = pathname.includes('video');
   const isPlaylistPage = pathname.includes('playlists');
@@ -26,6 +29,7 @@ export default function RootLayout({
         <Navbar />
         <Sidebar />
         <FilterModal />
+        <SearchModal />
         <div
           className={clsx(
             'pt-[10rem] ',
@@ -38,7 +42,4 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
-function useLayoutClasses(): { getClasses: any } {
-  throw new Error('Function not implemented.');
 }
