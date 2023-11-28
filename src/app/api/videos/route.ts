@@ -23,6 +23,8 @@ export async function getVideosDataFromYT(videosIds: string[]) {
           likeCount: video.statistics.likeCount,
           viewCount: video.statistics.viewCount,
           player: video.player.embedHtml,
+          tags: video.snippet.tags,
+          categoryId: video.snippet.categoryId,
         },
       });
     }
