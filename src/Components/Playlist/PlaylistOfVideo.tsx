@@ -6,8 +6,11 @@ interface PlaylistOfVideoProps {
   video: Video & {
     channel: Channel;
     playlists: (Playlist & {
-      videos: Video[];
-      channel: Channel[];
+      channels: Channel[];
+      ownerChannel: Channel;
+      videos: (Video & {
+        channel: Channel;
+      })[];
     })[];
   };
   playlistId?: string;
@@ -23,15 +26,18 @@ const PlaylistOfVideo: React.FC<PlaylistOfVideoProps> = ({
 
   return (
     <div className="border-2 border-slate-300 rounded-xl  max-w-xl">
-      <div className="p-6 bg-slate-900">
+      <div className=" flex flex-col p-6 bg-slate-900 gap-y-2">
         <Link href={`/playlists/${playlistId}`}>
-          <h1 className="font-bold text-lg">{playlist?.name}</h1>
+          <h1 className="font-bold text-3xl">{playlist?.name}</h1>
         </Link>
-        <h2>{playlist?.channel[0].title}</h2>
+        <h2 className="text-xl">{playlist?.ownerChannel.title}</h2>
       </div>
       <div className="h-fit">
-        {playlist?.videos.map((playlistVideo: Video) => (
-          <Link href={`/playlists/${playlistId}/${playlistVideo.id}`}>
+        {playlist?.videos.map((playlistVideo) => (
+          <Link
+            key={playlist.id}
+            href={`/playlists/${playlistId}/${playlistVideo.id}`}
+          >
             <div
               key={playlistVideo.id}
               className={`${
@@ -49,7 +55,10 @@ const PlaylistOfVideo: React.FC<PlaylistOfVideoProps> = ({
                 className="rounded-md h-16 "
                 src={playlistVideo.thumbnailUrl!}
               />
-              <p className="line-clamp-1">{playlistVideo.title}</p>
+              <div>
+                <p className="line-clamp-2">{playlistVideo.title}</p>
+                <p className="text-gray-400">{playlistVideo.channel.title}</p>
+              </div>
             </div>
           </Link>
         ))}

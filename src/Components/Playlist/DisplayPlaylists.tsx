@@ -12,7 +12,7 @@ const DisplayPlaylists: React.FC<DisplayPlaylistsProps> = ({ playlist }) => {
     <div key={playlist.id} className="p-5 flex flex-row gap-x-3">
       <div>
         <img
-          className="  lg:w-[16rem] xl:w-[20rem] rounded-2xl "
+          className=" lg:w-[16rem] xl:w-[20rem] rounded-2xl border-double border-t-8 outline-1 outline-double ring-1"
           src={playlist.thumbnailUrl!}
         />
       </div>
