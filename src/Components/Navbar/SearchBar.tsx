@@ -26,7 +26,7 @@ const SearchBar = () => {
     <>
       <form
         onSubmit={onSearch}
-        className="md:flex mt-[1.5rem] w-1/3 hidden rounded-full"
+        className="md:flex mt-[2.5rem] w-1/3 hidden rounded-full"
       >
         <input
           value={searchQuery}
@@ -48,7 +48,7 @@ const SearchBar = () => {
       <div
         onClick={searchModal.onOpen}
         className={clsx(
-          'md:hidden fixed top-12 right-20',
+          'md:hidden fixed top-16 right-20',
           searchModal.isOpen && 'hidden',
         )}
       >
