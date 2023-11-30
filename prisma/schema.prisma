@@ -28,9 +28,9 @@ model Video {
   thumbnailWidth  Int?
   thumbnailHeight Int?
   channelId       String
-  viewCount       String?
-  likeCount       String?
-  commentCount    String?
+  viewCount       Decimal?
+  likeCount       Decimal?
+  commentCount    Decimal?
   player          String?
   publishedAt     DateTime?
   tags            String[]
@@ -48,19 +48,19 @@ model Category {
 }
 
 model Channel {
-  id              String  @id
+  id              String   @id
   title           String?
   description     String?
   customUrl       String?
   thumbnailUrl    String?
   thumbnailWidth  Int?
   thumbnailHeight Int?
-  viewCount       String?
-  subscriberCount String?
+  viewCount       Decimal?
+  subscriberCount Decimal?
   keyWords        String?
   image           String?
 
-  videoCount         String?
+  videoCount         Int?
   videos             Video[]
   myPlaylists        Playlist[] @relation(name: "OwnerChannel")
   playlistFromOthers Playlist[] @relation(name: "PlaylistToChannel")
