@@ -19,9 +19,9 @@ export async function getVideosDataFromYT(videosIds: string[]) {
           id: videoId,
         },
         data: {
-          commentCount: video.statistics.commentCount,
-          likeCount: video.statistics.likeCount,
-          viewCount: video.statistics.viewCount,
+          commentCount: Number(video.statistics.commentCount),
+          likeCount: Number(video.statistics.likeCount),
+          viewCount: Number(video.statistics.viewCount),
           player: video.player.embedHtml,
           tags: video.snippet.tags,
           categoryId: video.snippet.categoryId,

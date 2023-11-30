@@ -23,12 +23,12 @@ export async function getChannelDataFromYt(channelsIds: string[]) {
           description: channel.snippet.description,
           image: channel.brandingSettings.image?.bannerExternalUrl || '',
           keyWords: channel.brandingSettings.channel.keywords,
-          subscriberCount: channel.statistics.subscriberCount,
+          subscriberCount: Number(channel.statistics.subscriberCount),
           thumbnailHeight: channel.snippet.thumbnails.default.height,
           thumbnailUrl: channel.snippet.thumbnails.default.url,
           thumbnailWidth: channel.snippet.thumbnails.default.width,
-          videoCount: channel.statistics.videoCount,
-          viewCount: channel.statistics.viewCount,
+          videoCount: Number(channel.statistics.videoCount),
+          viewCount: Number(channel.statistics.viewCount),
         },
       });
     }
