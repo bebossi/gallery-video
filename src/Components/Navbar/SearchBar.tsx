@@ -40,7 +40,10 @@ const SearchBar = () => {
         </button>
         <span
           onClick={filterModal.toggleSidebar}
-          className={clsx('mx-[1rem]', !isSearchPage && 'hidden')}
+          className={clsx(
+            'mx-[1rem] hover:cursor-pointer',
+            !isSearchPage && 'hidden',
+          )}
         >
           <LuFilter size={25} />
         </span>
