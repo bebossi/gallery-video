@@ -5,10 +5,13 @@ import './globals.css';
 import Navbar from '../Components/Navbar/Navbar';
 import clsx from 'clsx';
 import useSidebar from '../Hooks/useSideBar';
-import { usePathname } from 'next/navigation';
+import { redirect, usePathname } from 'next/navigation';
 import Sidebar from '../Components/Sidebar/Sidebar';
 import FilterModal from '../Components/Filters/FilterModal';
 import SearchModal from '../Components/Search/SearchModal';
+import { ClerkProvider } from '@clerk/nextjs';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,27 +22,37 @@ export default function RootLayout({
 }) {
   const { isOpen } = useSidebar();
 
+  useEffect(() => {
+    const fecthUser = async () => {
+      const response = await axios.post('/api/createUser');
+      if (!response) return redirect('/sign-in');
+    };
+    fecthUser();
+  }, []);
+
   const pathname = usePathname();
   const isVideoPage = pathname.includes('video');
   const isPlaylistPage = pathname.includes('playlists');
 
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Navbar />
-        <Sidebar />
-        <FilterModal />
-        <SearchModal />
-        <div
-          className={clsx(
-            'pt-[10rem] ',
-            isOpen && !(isPlaylistPage && isVideoPage) && 'ml-[18rem]',
-            isOpen && isPlaylistPage && isVideoPage && ' opacity-20',
-          )}
-        >
-          {children}
-        </div>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <Navbar />
+          <Sidebar />
+          <FilterModal />
+          <SearchModal />
+          <div
+            className={clsx(
+              'pt-[10rem] ',
+              isOpen && !(isPlaylistPage && isVideoPage) && 'ml-[18rem]',
+              isOpen && isPlaylistPage && isVideoPage && ' opacity-20',
+            )}
+          >
+            {children}
+          </div>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
