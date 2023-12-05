@@ -1,10 +1,11 @@
+import { formatNumber } from '@/src/lib/formatNumber';
 import { Channel, Video } from '@prisma/client';
 import Link from 'next/link';
 import React from 'react';
 
 export interface DisplayVideoProps {
   video: Video & {
-    channel: Channel;
+    channel?: Channel;
   };
   playlistId?: string;
 }
@@ -28,7 +29,11 @@ const DisplayVideo: React.FC<DisplayVideoProps> = ({ video, playlistId }) => {
         <div className="flex flex-col gap-y-4 text-sm md:text-base  lg:text-lg xl:text-xl  max-w-fit w-full ">
           <p className="font-bold line-clamp-2">{video.title}</p>
           <p>
-            {video.channel.title} . {video.viewCount} views
+            {video.channel?.title} . {formatNumber(Number(video.viewCount))}{' '}
+            views
+          </p>
+          <p className="line-clamp-1 w-1/2 text-sm text-slate-400">
+            {video.description}
           </p>
         </div>
       </div>
