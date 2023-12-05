@@ -3,8 +3,13 @@ import { Category } from '@prisma/client';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
 
-const CategoyFilter = () => {
+interface CategoryFilterProps {
+  selectedCategory?: string;
+}
+
+const CategoyFilter: React.FC<CategoryFilterProps> = ({ selectedCategory }) => {
   const [categories, setCategories] = useState<any[]>();
   const router = useRouter();
 
@@ -21,16 +26,23 @@ const CategoyFilter = () => {
       router.push(`/${selectedCategoryId}`);
     }
   };
-  console.log(categories?.map((category) => category.videos));
   return (
     <>
-      <select onChange={handleCategoryChange} className="text-black">
-        {categories?.map((category: Category) => (
-          <option key={category.id} value={category.id}>
-            {category.title}
-          </option>
-        ))}
-      </select>
+      <div className="relative inline-flex m-[1rem]">
+        <select
+          defaultValue="Select a category"
+          value={selectedCategory}
+          onChange={handleCategoryChange}
+          className=" bg-white border border-gray-300 rounded-md p-2 pr-8 text-sm focus:outline-none focus:ring focus:border-blue-300 text-black"
+        >
+          <option value="videos">Select a category</option>
+          {categories?.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.title}
+            </option>
+          ))}
+        </select>
+      </div>
     </>
   );
 };
