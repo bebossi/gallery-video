@@ -16,6 +16,8 @@ model User {
   username  String
   createdAt DateTime
   updatedAt DateTime
+
+  playlists Playlist[]
 }
 
 model Video {
@@ -74,6 +76,8 @@ model Playlist {
   thumbnailUrl    String?
   thumbnailWidth  Int?
   thumbnailHeight Int?
+
+  users User[]
 
   ownerChannelId String
   ownerChannel   Channel @relation(name: "OwnerChannel", fields: [ownerChannelId], references: [id])
