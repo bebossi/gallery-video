@@ -9,7 +9,7 @@ import { redirect, usePathname } from 'next/navigation';
 import Sidebar from '../Components/Sidebar/Sidebar';
 import FilterModal from '../Components/Filters/FilterModal';
 import SearchModal from '../Components/Search/SearchModal';
-import { ClerkProvider } from '@clerk/nextjs';
+import { ClerkProvider, UserButton } from '@clerk/nextjs';
 import { useEffect } from 'react';
 import axios from 'axios';
 
@@ -42,6 +42,9 @@ export default function RootLayout({
           <Sidebar />
           <FilterModal />
           <SearchModal />
+          <div className="fixed top-12 right-12">
+            <UserButton />
+          </div>
           <div
             className={clsx(
               'pt-[10rem] ',
