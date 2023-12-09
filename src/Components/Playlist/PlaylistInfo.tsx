@@ -1,4 +1,6 @@
+'use client';
 import { Channel, Playlist, Video } from '@prisma/client';
+import axios from 'axios';
 import Link from 'next/link';
 
 export interface PlaylistInfoProps {
@@ -9,6 +11,16 @@ export interface PlaylistInfoProps {
   };
 }
 const PlaylistInfo: React.FC<PlaylistInfoProps> = ({ playlist }) => {
+  const savePlaylist = async () => {
+    try {
+      await axios.put('/api/savePlaylist', {
+        playlistId: playlist.id,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="flex flex-row items-center justify-start rounded-xl lg:flex-col h-full lg:h-screen w-screen sm:w-full md:w-full lg:w-1/2 xl:w-1/3 2xl:w-1/3 bg-gradient-to-b from-slate-800 bg-opacity-80">
       <Link
@@ -37,6 +49,7 @@ const PlaylistInfo: React.FC<PlaylistInfoProps> = ({ playlist }) => {
           {playlist.description || 'Playlist sem descrição'}
         </p>
       </div>
+      <button onClick={savePlaylist}>save playlist</button>
     </div>
   );
 };
