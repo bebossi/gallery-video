@@ -1,6 +1,7 @@
 import PlaylistInfo from '@/src/Components/Playlist/PlaylistInfo';
 import DisplayVideo from '@/src/Components/Videos/DisplayVideo';
 import prismadb from '@/src/lib/prismadb';
+import { Video } from '@prisma/client';
 import Link from 'next/link';
 
 interface PlaylistPageProps {
@@ -17,6 +18,7 @@ const PlaylistPage: React.FC<PlaylistPageProps> = async ({ params }) => {
     include: {
       channels: true,
       ownerChannel: true,
+      users: true,
       videos: {
         include: {
           channel: true,
