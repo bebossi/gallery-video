@@ -1,20 +1,26 @@
-import { Channel, Playlist, Video } from '@prisma/client';
+import { Channel, Playlist, User, Video } from '@prisma/client';
 import Link from 'next/link';
 
 interface DisplayPlaylistsProps {
   playlist: Playlist & {
     ownerChannel: Channel;
     videos: Video[];
+    channels: Channel[];
+    users: User[];
   };
 }
+
 const DisplayPlaylists: React.FC<DisplayPlaylistsProps> = ({ playlist }) => {
   return (
     <div key={playlist.id} className="p-5 flex flex-row gap-x-3">
-      <div>
+      <div className="group relative">
         <img
-          className=" lg:w-[16rem] xl:w-[20rem] rounded-2xl border-double border-t-8 outline-1 outline-double ring-1"
+          className="group lg:w-[16rem] xl:w-[20rem] rounded-2xl hover:cursor-pointer border-double border-t-8 outline-1 outline-double ring-1 group-hover:opacity-20"
           src={playlist.thumbnailUrl!}
         />
+        <div className="hidden group-hover:block top-12 right-6 hover:cursor-pointer text-2xl font-bold absolute rounded-sm text-white">
+          Reproduce all
+        </div>
       </div>
       <Link href={`/playlists/${playlist.id}`}>
         <div className="flex flex-col justify-start items-start  md:gap-y-1 lg:gap-y-2 lg:h-[10rem] w-[15rem] sm:w-[25rem] md:w-[30rem] lg:w-[35rem] xl:w-[40rem]">
