@@ -1,8 +1,8 @@
 import PlaylistInfo from '@/src/Components/Playlist/PlaylistInfo';
 import DisplayVideo from '@/src/Components/Videos/DisplayVideo';
+import { isPlaylistSaved } from '@/src/app/api/isPlaylistSaved/route';
 import prismadb from '@/src/lib/prismadb';
-import { Video } from '@prisma/client';
-import Link from 'next/link';
+import { currentUser } from '@clerk/nextjs/server';
 
 interface PlaylistPageProps {
   params: {
@@ -26,16 +26,16 @@ const PlaylistPage: React.FC<PlaylistPageProps> = async ({ params }) => {
       },
     },
   });
+  const user = await currentUser();
 
+  const isSaved = await isPlaylistSaved(playlistId, user!.id);
   return (
-    <div className="flex flex-col justify-start items-start lg:flex-row xl:flex-row mt-6 ml-6 2xl:ml-56 mr-3">
-      <PlaylistInfo playlist={playlist!} />
+    <div className="flex flex-col justify-start items-start lg:flex-row mt-6 w-[90vw]">
+      <PlaylistInfo playlist={playlist!} isSaved={isSaved} />
       <div className="flex flex-col w-full ">
-        {playlist?.videos.map((video) => (
-          <Link key={video.id} href={`/playlists/${playlistId}/${video.id}`}>
-            <DisplayVideo key={video.id} video={video} />
-          </Link>
-        ))}
+        {playlist?.videos.map((video) => {
+          return <DisplayVideo key={video.id} video={video} />;
+        })}
       </div>
     </div>
   );

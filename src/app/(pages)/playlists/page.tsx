@@ -19,7 +19,7 @@ const PlaylistPage = async () => {
           },
         ) => (
           <>
-            <DisplayPlaylists playlist={playlist!} />
+            <DisplayPlaylists key={playlist.id} playlist={playlist!} />
           </>
         ),
       )}
