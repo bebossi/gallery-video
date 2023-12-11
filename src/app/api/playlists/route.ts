@@ -8,6 +8,7 @@ export async function getPlaylistsFromDB() {
         videos: true,
         channels: true,
         ownerChannel: true,
+        users: true,
       },
     });
 
