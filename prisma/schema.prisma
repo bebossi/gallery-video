@@ -29,9 +29,9 @@ model Video {
   thumbnailWidth  Int?
   thumbnailHeight Int?
   channelId       String
-  viewCount       Decimal?
-  likeCount       Decimal?
-  commentCount    Decimal?
+  viewCount       Float?
+  likeCount       Float?
+  commentCount    Float?
   player          String?
   publishedAt     DateTime?
   tags            String[]
@@ -49,15 +49,15 @@ model Category {
 }
 
 model Channel {
-  id              String   @id
+  id              String  @id
   title           String?
   description     String?
   customUrl       String?
   thumbnailUrl    String?
   thumbnailWidth  Int?
   thumbnailHeight Int?
-  viewCount       Decimal?
-  subscriberCount Decimal?
+  viewCount       Float?
+  subscriberCount Float?
   keyWords        String?
   image           String?
 
@@ -76,14 +76,12 @@ model Playlist {
   thumbnailUrl    String?
   thumbnailWidth  Int?
   thumbnailHeight Int?
+  ownerChannelId  String
 
-  users User[]
-
-  ownerChannelId String
-  ownerChannel   Channel @relation(name: "OwnerChannel", fields: [ownerChannelId], references: [id])
-
-  videos   Video[]
-  channels Channel[] @relation(name: "PlaylistToChannel")
+  ownerChannel Channel   @relation(name: "OwnerChannel", fields: [ownerChannelId], references: [id])
+  channels     Channel[] @relation(name: "PlaylistToChannel")
+  videos       Video[]
+  users        User[]
 }
 
 model SearchQuery {
