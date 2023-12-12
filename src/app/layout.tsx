@@ -42,12 +42,12 @@ export default function RootLayout({
           <Sidebar />
           <FilterModal />
           <SearchModal />
-          <div className="fixed top-12 right-12">
+          <div className="fixed top-12 right-20">
             <UserButton />
           </div>
           <div
             className={clsx(
-              'pt-[10rem] ',
+              'pt-[10rem] mx-[1rem]',
               isOpen && !(isPlaylistPage && isVideoPage) && 'ml-[18rem]',
               isOpen && isPlaylistPage && isVideoPage && ' opacity-20',
             )}

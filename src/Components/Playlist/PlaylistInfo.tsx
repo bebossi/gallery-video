@@ -23,6 +23,15 @@ const PlaylistInfo: React.FC<PlaylistInfoProps> = ({ playlist, isSaved }) => {
       console.log(err);
     }
   };
+  const unsavePlaylist = async () => {
+    try {
+      await axios.put('/api/unsavePlaylist', {
+        playlistId: playlist.id,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="flex flex-row items-center justify-start rounded-xl lg:flex-col h-full lg:h-screen w-full sm:w-full md:w-full lg:w-1/2 xl:w-1/2 2xl:w-1/3 bg-gradient-to-b from-slate-800 bg-opacity-80">
@@ -43,7 +52,7 @@ const PlaylistInfo: React.FC<PlaylistInfoProps> = ({ playlist, isSaved }) => {
       </Link>
       <div className="flex flex-col justify-start items-start w-full lg:pl-[1rem] ">
         {isSaved ? (
-          <button title="Remove playlist" onClick={savePlaylist}>
+          <button title="Remove playlist" onClick={unsavePlaylist}>
             <IoIosRemoveCircle size={25} />
           </button>
         ) : (
