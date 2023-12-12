@@ -41,7 +41,7 @@ const PlaylistInfo: React.FC<PlaylistInfoProps> = ({ playlist, isSaved }) => {
           </div>
         </div>
       </Link>
-      <div className="flex flex-col justify-start items-start w-full px-6 sm:px-12">
+      <div className="flex flex-col justify-start items-start w-full lg:pl-[1rem] ">
         {isSaved ? (
           <button title="Remove playlist" onClick={savePlaylist}>
             <IoIosRemoveCircle size={25} />
