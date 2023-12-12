@@ -11,7 +11,9 @@ const PlaylistVideosPage = () => {
   const handlePlaylistId = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await axios.get(`/api/insertPlaylist?id=${playlistId}`);
+      const response = await axios.get(
+        `/api/insertPlaylistId?id=${playlistId}`,
+      );
 
       setVideos(response.data);
     } catch (err) {
