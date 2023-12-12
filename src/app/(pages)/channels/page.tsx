@@ -4,10 +4,11 @@ import Link from 'next/link';
 import { formatNumber } from '@/src/lib/formatNumber';
 
 const ChannelsPage = async () => {
-  const channles = await getChannelsFromDB();
+  const channels = await getChannelsFromDB();
+  console.log(channels);
   return (
     <div className="flex flex-col items-center w-full gap-[2rem] p-4">
-      {channles.map((channel) => (
+      {channels.map((channel) => (
         <Link href={`/channels/${channel.id}`}>
           <div className="flex w-full items-center justify-center ">
             <div className="w-[8rem] sm:w-[9-rem] md:w-[12rem] lg:w-[15rem]">

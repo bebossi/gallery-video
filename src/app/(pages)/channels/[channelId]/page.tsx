@@ -1,5 +1,7 @@
 import ChannelInfo from '@/src/Components/Channel/ChannelInfo';
 import ChannelNav from '@/src/Components/Channel/ChannelNav';
+import ChannelPlaylists from '@/src/Components/Channel/ChannelPlaylists';
+import ChannelVideos from '@/src/Components/Channel/ChannelVideos';
 import prismadb from '@/src/lib/prismadb';
 
 interface ChannelPageProps {
@@ -14,7 +16,11 @@ const ChannelPage: React.FC<ChannelPageProps> = async ({ params }) => {
       id: params.channelId,
     },
     include: {
-      myPlaylists: true,
+      myPlaylists: {
+        include: {
+          videos: true,
+        },
+      },
       videos: true,
       playlistFromOthers: true,
     },
@@ -25,9 +31,11 @@ const ChannelPage: React.FC<ChannelPageProps> = async ({ params }) => {
       <div className="flex flex-col justify-center items-center m-4">
         <ChannelInfo channel={channel!} />
       </div>
-      <div className="mx-[12rem] mt-[4rem] flex items-start border-b w-full">
+      <div className=" mt-[4rem] flex items-start border-b w-screen">
         <ChannelNav />
       </div>
+      <ChannelVideos channel={channel!} />
+      <ChannelPlaylists channel={channel!} />
     </div>
   );
 };
