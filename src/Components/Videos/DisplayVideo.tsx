@@ -26,7 +26,7 @@ const DisplayVideo: React.FC<DisplayVideoProps> = ({ video, playlistId }) => {
           className=" h-[4rem] sm:h-[5rem] md:h-[7rem] lg:h-[7rem] xl:h-[8rem] 2xl:h-[9rem] rounded-md"
           src={video.thumbnailUrl!}
         />
-        <div className="flex flex-col gap-y-4 text-sm md:text-base  lg:text-lg xl:text-xl  max-w-fit w-full ">
+        <div className="flex flex-col gap-y-2 xl:gap-y-4 text-sm md:text-base lg:text-lg xl:text-xl ">
           <p className="font-bold line-clamp-2">{video.title}</p>
           <p>
             {video.channel?.title} . {formatNumber(Number(video.viewCount))}{' '}
