@@ -37,17 +37,17 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className="w-screen h-screen">
+        <body className="w-screen h-screen overflow-x-hidden">
           <Navbar />
           <Sidebar />
           <FilterModal />
           <SearchModal />
-          <div className="absolute top-12 right-20">
+          <div className="fixed top-[3.75rem] right-3 z-50">
             <UserButton />
           </div>
           <div
             className={clsx(
-              'pt-[10rem] mx-[1rem] w-screen',
+              'pt-[10rem] mx-[1rem] w-screen ',
               isOpen && !(isPlaylistPage && isVideoPage) && 'ml-[18rem]',
               isOpen && isPlaylistPage && isVideoPage && ' opacity-20',
             )}

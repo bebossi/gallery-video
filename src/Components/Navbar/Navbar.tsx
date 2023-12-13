@@ -12,7 +12,7 @@ const Navbar = () => {
   return (
     <div
       className={clsx(
-        'fixed bg-black w-full h-[9.5rem] shadow-sm',
+        'fixed bg-black w-screen h-[9.5rem] shadow-sm z-40',
         isOpen && 'hidden',
       )}
     >
