@@ -12,13 +12,13 @@ interface DisplayPlaylistsProps {
 
 const DisplayPlaylists: React.FC<DisplayPlaylistsProps> = ({ playlist }) => {
   return (
-    <div key={playlist.id} className="p-5 flex flex-row gap-x-3">
-      <div className="group relative">
+    <div key={playlist.id} className="p-5 flex flex-row gap-x-3 ">
+      <div className="group relative ">
         <img
-          className="group lg:w-[16rem] xl:w-[20rem] rounded-2xl hover:cursor-pointer border-double border-t-8 outline-1 outline-double ring-1 group-hover:opacity-20"
+          className="group  lg:w-[16rem] xl:w-[20rem] rounded-2xl hover:cursor-pointer border-double border-t-8 outline-1 outline-double ring-1 group-hover:opacity-20"
           src={playlist.thumbnailUrl!}
         />
-        <div className="hidden group-hover:block top-12 right-6 hover:cursor-pointer text-2xl font-bold absolute rounded-sm text-white">
+        <div className="hidden group-hover:block top-20 left-20 hover:cursor-pointer text-2xl font-bold absolute rounded-sm text-white ">
           Reproduce all
         </div>
       </div>

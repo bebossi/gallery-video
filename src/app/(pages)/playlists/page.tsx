@@ -8,7 +8,7 @@ const PlaylistPage = async () => {
   const playlists = await getPlaylistsFromDB();
 
   return (
-    <div className="flex flex-col gap-x-12 items-center justify-center ">
+    <div className="flex flex-col gap-x-12 items-start  ">
       {playlists.map(
         (
           playlist: Playlist & {
