@@ -1,3 +1,4 @@
+import { Request } from 'express';
 import prismadb from '@/src/lib/prismadb';
 import { NextApiRequest } from 'next';
 import { NextResponse } from 'next/server';
@@ -5,76 +6,120 @@ import { NextResponse } from 'next/server';
 export interface ISearchFilterParams {
   type?: string;
   uploadDate?: string;
-  sortBy?: string;
+  sortByParams?: string;
   searchQuery: string;
 }
 
+interface OrderBy {
+  viewCount?: 'asc' | 'desc';
+  likeCount?: 'asc' | 'desc';
+  publishedAt?: 'asc' | 'desc';
+  relevance?: 'asc' | 'desc';
+  subscriberCount?: 'asc' | 'desc';
+}
+interface UploadDate {
+  hour?: { gte: Date; lte: Date };
+  today?: { gte: Date; lte: Date };
+  week?: { gte: Date; lte: Date };
+  month?: { gte: Date; lte: Date };
+  year?: { gte: Date; lte: Date };
+}
+export type UploadDateKey = 'hour' | 'today' | 'week' | 'month' | 'year';
+
 export async function GET(req: NextApiRequest, request: Request) {
-  // export async function GET(params: ISearchFilterParams) {
   try {
-    // const { type, uploadDate, sortBy, searchQuery } = params;
-    // console.log('params', params);
-
-    // let query: any = {};
-
-    // if (searchQuery) query.searchQuery = searchQuery;
-
-    // if (type) query.type = type;
-
-    // if (uploadDate) query.uploadDate = uploadDate;
-
-    // if (sortBy) query.sortBy = sortBy;
     const { searchParams } = new URL(req.url!);
     console.log(searchParams);
-    const query = searchParams.get('q');
-    const type = searchParams.get('type');
-    const uploadDate = searchParams.get('uploadDate');
-    const sortBy = searchParams.get('sortBy');
+    const queryParams = searchParams.get('q');
+    const typeParams = searchParams.get('type');
+    const uploadDateParams = searchParams.get('uploadDate');
+    const sortByParams: string | null = searchParams.get('sortBy');
+    console.log(uploadDateParams);
 
-    let orderBy: any = {};
+    let sortBy: OrderBy = {};
+    let uploadDate: UploadDate = {};
 
-    if (type === 'videos') {
-      if (sortBy === 'views') orderBy.viewCount = 'desc';
-      if (sortBy === 'rating') orderBy.likeCount = 'desc';
-      if (sortBy === 'date') orderBy.publishedAt = 'desc';
-      if (sortBy === 'relevance') orderBy.relevance = 'desc';
+    if (typeParams === 'videos' && sortByParams !== null) {
+      const sortByMapping: { [key: string]: string } = {
+        viewCount: 'desc',
+        likeCount: 'desc',
+        publishedAt: 'desc',
+        relevance: 'desc',
+      };
+
+      sortBy = {
+        ...sortBy,
+        [sortByParams!]: sortByMapping[sortByParams!],
+      };
+
+      const uploadDateMapping: Record<UploadDateKey, { gte: Date; lte: Date }> =
+        {
+          hour: {
+            gte: new Date(new Date().getTime() - 60 * 60 * 1000),
+            lte: new Date(),
+          },
+          today: {
+            gte: new Date(new Date().setHours(0, 0, 0, 0)),
+            lte: new Date(),
+          },
+          week: {
+            gte: new Date(
+              new Date().setDate(new Date().getDate() - new Date().getDay()),
+            ),
+            lte: new Date(),
+          },
+          month: { gte: new Date(new Date().setDate(1)), lte: new Date() },
+          year: {
+            gte: new Date(new Date().getFullYear(), 0, 1),
+            lte: new Date(),
+          },
+        };
+
+      const uploadDateKey = uploadDateParams as UploadDateKey;
+
+      uploadDate = {
+        ...uploadDate,
+        [uploadDateKey]: uploadDateMapping[uploadDateKey],
+      };
+
       const videos = await prismadb.video.findMany({
         where: {
           OR: [
             {
               title: {
-                contains: query as string,
+                contains: queryParams as string,
                 mode: 'insensitive',
               },
             },
             {
               tags: {
-                has: query as string,
+                has: queryParams as string,
               },
             },
           ],
+          publishedAt:
+            uploadDateParams !== null
+              ? {
+                  gte: uploadDate[uploadDateKey]?.gte,
+                  lte: uploadDate[uploadDateKey]?.lte,
+                }
+              : undefined,
         },
-        orderBy: orderBy,
+        orderBy: sortBy,
+
         include: {
           channel: true,
         },
       });
       return NextResponse.json({ videos });
     }
-
-    if (type === 'playlists') {
+    if (typeParams === 'playlists') {
       const playlists = await prismadb.playlist.findMany({
         where: {
           OR: [
             {
               name: {
-                contains: query as string,
-                mode: 'insensitive',
-              },
-            },
-            {
-              description: {
-                contains: query as string,
+                contains: queryParams as string,
                 mode: 'insensitive',
               },
             },
@@ -88,98 +133,120 @@ export async function GET(req: NextApiRequest, request: Request) {
       return NextResponse.json({ playlists });
     }
 
-    if (type === 'channels') {
-      if (sortBy === 'views') orderBy.viewCount = 'desc';
-      if (sortBy === 'rating') orderBy.subscriberCount = 'desc';
-      if (sortBy === 'relevance') orderBy.relevance = 'desc';
+    if (typeParams === 'channels' && sortByParams !== null) {
+      const sortByMapping: { [key: string]: string } = {
+        viewCount: 'desc',
+        subscriberCount: 'desc',
+        publishedAt: 'desc',
+        relevance: 'desc',
+      };
+
+      sortBy = {
+        ...sortBy,
+        [sortByParams]: sortByMapping[sortByParams],
+      };
       const channels = await prismadb.channel.findMany({
         where: {
           OR: [
             {
               title: {
-                contains: query as string,
+                contains: queryParams as string,
                 mode: 'insensitive',
               },
             },
             {
               keyWords: {
-                contains: query as string,
+                contains: queryParams as string,
                 mode: 'insensitive',
               },
             },
           ],
         },
-        orderBy: orderBy,
+        include: {
+          myPlaylists: true,
+          videos: true,
+        },
+        orderBy: sortBy,
       });
       return NextResponse.json({ channels });
     }
 
-    const playlists = await prismadb.playlist.findMany({
-      where: {
+    const findManyGeneric = async (
+      model: any,
+      where: any,
+      include?: any,
+      sortBy?: any,
+    ) => {
+      return await model.findMany({
+        where: where,
+        include: include,
+        sortBy: sortBy,
+      });
+    };
+
+    const playlists = await findManyGeneric(
+      prismadb.playlist,
+      {
         OR: [
           {
             name: {
-              contains: query as string,
+              contains: queryParams as string,
               mode: 'insensitive',
             },
           },
           {
             description: {
-              contains: query as string,
+              contains: queryParams as string,
               mode: 'insensitive',
             },
           },
         ],
       },
-      include: {
+      {
         ownerChannel: true,
         videos: true,
       },
+    );
+
+    const channels = await findManyGeneric(prismadb.channel, {
+      OR: [
+        {
+          title: {
+            contains: queryParams as string,
+            mode: 'insensitive',
+          },
+        },
+        {
+          keyWords: {
+            contains: queryParams as string,
+            mode: 'insensitive',
+          },
+        },
+      ],
     });
 
-    const channels = await prismadb.channel.findMany({
-      where: {
+    const videos = await findManyGeneric(
+      prismadb.video,
+      {
         OR: [
           {
             title: {
-              contains: query as string,
-              mode: 'insensitive',
-            },
-          },
-
-          {
-            keyWords: {
-              contains: query as string,
-              mode: 'insensitive',
-            },
-          },
-        ],
-      },
-    });
-    const videos = await prismadb.video.findMany({
-      where: {
-        OR: [
-          {
-            title: {
-              contains: query as string,
+              contains: queryParams as string,
               mode: 'insensitive',
             },
           },
           {
             tags: {
-              has: query as string,
+              has: queryParams as string,
             },
           },
         ],
       },
-      // orderBy: {
-      //   viewCount: 'desc',
-      //   // likeCount: 'desc',
-      // },
-      include: {
+      {
         channel: true,
       },
-    });
+    );
+
     return NextResponse.json({ playlists, videos, channels });
   } catch (err) {
     console.log(err);

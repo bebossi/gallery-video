@@ -35,7 +35,9 @@ const FilterModal = () => {
         setType(value);
         break;
       case 'sortBy':
-        setSortBy(value);
+        if (type !== 'playlists') {
+          setSortBy(value);
+        }
         break;
       default:
         break;
@@ -81,9 +83,13 @@ const FilterModal = () => {
           <div className="flex gap-x-[4rem]">
             {filterOptions.map((filterOption) => (
               <FilterOptions
-                label={filterOption.label}
-                options={filterOption.options}
                 key={filterOption.key}
+                label={filterOption.label}
+                options={
+                  filterOption.getOptions
+                    ? filterOption.getOptions(type)
+                    : filterOption.options
+                }
                 onSelect={(value) =>
                   handleFilterOptionSelect(filterOption.key, value)
                 }

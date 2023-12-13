@@ -1,6 +1,5 @@
 interface FilterOptionsProps {
   selectedOption?: string;
-  key: string;
   label: string;
   options: { label: string; value: string }[];
   onSelect: (value: string) => void;
@@ -23,7 +22,7 @@ const FilterOptions: React.FC<FilterOptionsProps> = ({
               selectedOption === option.value
                 ? 'bg-cyan-900 rounded-3xl text-center'
                 : ''
-            }`}
+            } `}
           >
             {option.label}
           </li>
