@@ -29,146 +29,150 @@ export type UploadDateKey = 'hour' | 'today' | 'week' | 'month' | 'year';
 export async function GET(req: NextApiRequest, request: Request) {
   try {
     const { searchParams } = new URL(req.url!);
-    console.log(searchParams);
     const queryParams = searchParams.get('q');
     const typeParams = searchParams.get('type');
     const uploadDateParams = searchParams.get('uploadDate');
     const sortByParams: string | null = searchParams.get('sortBy');
-    console.log(uploadDateParams);
 
     let sortBy: OrderBy = {};
     let uploadDate: UploadDate = {};
 
-    if (typeParams === 'videos' && sortByParams !== null) {
-      const sortByMapping: { [key: string]: string } = {
-        viewCount: 'desc',
-        likeCount: 'desc',
-        publishedAt: 'desc',
-        relevance: 'desc',
-      };
+    switch (typeParams) {
+      case 'videos':
+        if (sortByParams !== null) {
+          const sortByMapping: { [key: string]: string } = {
+            viewCount: 'desc',
+            likeCount: 'desc',
+            publishedAt: 'desc',
+            relevance: 'desc',
+          };
 
-      sortBy = {
-        ...sortBy,
-        [sortByParams!]: sortByMapping[sortByParams!],
-      };
+          sortBy = {
+            ...sortBy,
+            [sortByParams!]: sortByMapping[sortByParams!],
+          };
 
-      const uploadDateMapping: Record<UploadDateKey, { gte: Date; lte: Date }> =
-        {
-          hour: {
-            gte: new Date(new Date().getTime() - 60 * 60 * 1000),
-            lte: new Date(),
+          const uploadDateMapping: Record<
+            UploadDateKey,
+            { gte: Date; lte: Date }
+          > = {
+            hour: {
+              gte: new Date(new Date().getTime() - 60 * 60 * 1000),
+              lte: new Date(),
+            },
+            today: {
+              gte: new Date(new Date().setHours(0, 0, 0, 0)),
+              lte: new Date(),
+            },
+            week: {
+              gte: new Date(
+                new Date().setDate(new Date().getDate() - new Date().getDay()),
+              ),
+              lte: new Date(),
+            },
+            month: { gte: new Date(new Date().setDate(1)), lte: new Date() },
+            year: {
+              gte: new Date(new Date().getFullYear(), 0, 1),
+              lte: new Date(),
+            },
+          };
+
+          const uploadDateKey = uploadDateParams as UploadDateKey;
+
+          uploadDate = {
+            ...uploadDate,
+            [uploadDateKey]: uploadDateMapping[uploadDateKey],
+          };
+
+          const videos = await prismadb.video.findMany({
+            where: {
+              OR: [
+                {
+                  title: {
+                    contains: queryParams as string,
+                    mode: 'insensitive',
+                  },
+                },
+                {
+                  tags: {
+                    has: queryParams as string,
+                  },
+                },
+              ],
+              publishedAt:
+                uploadDateParams !== null
+                  ? {
+                      gte: uploadDate[uploadDateKey]?.gte,
+                      lte: uploadDate[uploadDateKey]?.lte,
+                    }
+                  : undefined,
+            },
+            orderBy: sortBy,
+
+            include: {
+              channel: true,
+            },
+          });
+          return NextResponse.json({ videos });
+        }
+        break;
+      case 'playlists':
+        const playlists = await prismadb.playlist.findMany({
+          where: {
+            OR: [
+              {
+                name: {
+                  contains: queryParams as string,
+                  mode: 'insensitive',
+                },
+              },
+            ],
           },
-          today: {
-            gte: new Date(new Date().setHours(0, 0, 0, 0)),
-            lte: new Date(),
+          include: {
+            ownerChannel: true,
+            videos: true,
           },
-          week: {
-            gte: new Date(
-              new Date().setDate(new Date().getDate() - new Date().getDay()),
-            ),
-            lte: new Date(),
-          },
-          month: { gte: new Date(new Date().setDate(1)), lte: new Date() },
-          year: {
-            gte: new Date(new Date().getFullYear(), 0, 1),
-            lte: new Date(),
-          },
-        };
+        });
+        return NextResponse.json({ playlists });
+      case 'channels':
+        if (sortByParams !== null) {
+          const sortByMapping: { [key: string]: string } = {
+            viewCount: 'desc',
+            subscriberCount: 'desc',
+            publishedAt: 'desc',
+            relevance: 'desc',
+          };
 
-      const uploadDateKey = uploadDateParams as UploadDateKey;
-
-      uploadDate = {
-        ...uploadDate,
-        [uploadDateKey]: uploadDateMapping[uploadDateKey],
-      };
-
-      const videos = await prismadb.video.findMany({
-        where: {
-          OR: [
-            {
-              title: {
-                contains: queryParams as string,
-                mode: 'insensitive',
-              },
+          sortBy = {
+            ...sortBy,
+            [sortByParams]: sortByMapping[sortByParams],
+          };
+          const channels = await prismadb.channel.findMany({
+            where: {
+              OR: [
+                {
+                  title: {
+                    contains: queryParams as string,
+                    mode: 'insensitive',
+                  },
+                },
+                {
+                  keyWords: {
+                    contains: queryParams as string,
+                    mode: 'insensitive',
+                  },
+                },
+              ],
             },
-            {
-              tags: {
-                has: queryParams as string,
-              },
+            include: {
+              myPlaylists: true,
+              videos: true,
             },
-          ],
-          publishedAt:
-            uploadDateParams !== null
-              ? {
-                  gte: uploadDate[uploadDateKey]?.gte,
-                  lte: uploadDate[uploadDateKey]?.lte,
-                }
-              : undefined,
-        },
-        orderBy: sortBy,
-
-        include: {
-          channel: true,
-        },
-      });
-      return NextResponse.json({ videos });
-    }
-    if (typeParams === 'playlists') {
-      const playlists = await prismadb.playlist.findMany({
-        where: {
-          OR: [
-            {
-              name: {
-                contains: queryParams as string,
-                mode: 'insensitive',
-              },
-            },
-          ],
-        },
-        include: {
-          ownerChannel: true,
-          videos: true,
-        },
-      });
-      return NextResponse.json({ playlists });
-    }
-
-    if (typeParams === 'channels' && sortByParams !== null) {
-      const sortByMapping: { [key: string]: string } = {
-        viewCount: 'desc',
-        subscriberCount: 'desc',
-        publishedAt: 'desc',
-        relevance: 'desc',
-      };
-
-      sortBy = {
-        ...sortBy,
-        [sortByParams]: sortByMapping[sortByParams],
-      };
-      const channels = await prismadb.channel.findMany({
-        where: {
-          OR: [
-            {
-              title: {
-                contains: queryParams as string,
-                mode: 'insensitive',
-              },
-            },
-            {
-              keyWords: {
-                contains: queryParams as string,
-                mode: 'insensitive',
-              },
-            },
-          ],
-        },
-        include: {
-          myPlaylists: true,
-          videos: true,
-        },
-        orderBy: sortBy,
-      });
-      return NextResponse.json({ channels });
+            orderBy: sortBy,
+          });
+          return NextResponse.json({ channels });
+        }
+        break;
     }
 
     const findManyGeneric = async (
@@ -249,6 +253,9 @@ export async function GET(req: NextApiRequest, request: Request) {
 
     return NextResponse.json({ playlists, videos, channels });
   } catch (err) {
-    console.log(err);
+    return {
+      error: err,
+      statusCode: 500,
+    };
   }
 }
