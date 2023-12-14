@@ -15,7 +15,7 @@ const DisplayVideo: React.FC<DisplayVideoProps> = ({ video, playlistId }) => {
       href={
         playlistId
           ? `/playlists/${playlistId}/video/${video.id}`
-          : `videos/${video.id}`
+          : `video/${video.id}`
       }
     >
       <div

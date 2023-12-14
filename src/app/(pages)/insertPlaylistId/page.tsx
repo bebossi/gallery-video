@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-const PlaylistVideosPage = () => {
+const InsertPlaylistId = () => {
   const navigate = useRouter();
   const [videos, setVideos] = useState<any>();
   const [playlistId, setPlaylistId] = useState('');
@@ -53,4 +53,4 @@ const PlaylistVideosPage = () => {
   );
 };
 
-export default PlaylistVideosPage;
+export default InsertPlaylistId;

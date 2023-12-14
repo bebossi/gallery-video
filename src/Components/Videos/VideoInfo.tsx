@@ -68,7 +68,7 @@ const VideoInfo: React.FC<VideoInfoProps> = ({ video }) => {
         </div>
       </div>
       <div className="bg-slate-900 p-2 my-2 rounded-md ">
-        <h2>{Number(video?.viewCount)} views</h2>
+        <h2>{formatNumber(Number(video?.viewCount))} views</h2>
         <p className={`${showDetails ? '' : 'line-clamp-1'}`}>
           {video?.description}
         </p>

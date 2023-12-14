@@ -36,7 +36,7 @@ const PlaylistOfVideo: React.FC<PlaylistOfVideoProps> = ({
         {playlist?.videos.map((playlistVideo) => (
           <Link
             key={playlist.id}
-            href={`/playlists/${playlistId}/${playlistVideo.id}`}
+            href={`/playlists/${playlistId}/video/${playlistVideo.id}`}
           >
             <div
               key={playlistVideo.id}

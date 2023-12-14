@@ -36,7 +36,13 @@ const PlaylistPage: React.FC<PlaylistPageProps> = async ({ params }) => {
       <PlaylistInfo playlist={playlist!} isSaved={isSaved} />
       <div className="flex flex-col w-full ">
         {playlist?.videos.map((video) => {
-          return <DisplayVideo key={video.id} video={video} />;
+          return (
+            <DisplayVideo
+              key={video.id}
+              video={video}
+              playlistId={playlistId}
+            />
+          );
         })}
       </div>
     </div>

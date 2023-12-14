@@ -36,8 +36,8 @@ const VideoPage: React.FC<VideoPageProps> = async ({ params }) => {
   });
 
   return (
-    <div className="flex items-start gap-x-[15rem] mt-[2rem]">
-      <div className=" flex justify-around w-full">
+    <div className="flex items-start gap-x-[4rem] mt-[2rem]">
+      <div className=" flex justify-between w-full">
         <VideoInfo video={video!} />
       </div>
       <div className=" w-1/2 h-full  ">
