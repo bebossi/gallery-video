@@ -4,7 +4,6 @@ import { NextResponse } from 'next/server';
 
 export const POST = async () => {
   const user = await currentUser();
-
   try {
     const existsUser = await prismadb.user.findUnique({
       where: {
@@ -19,7 +18,7 @@ export const POST = async () => {
       data: {
         id: user?.id,
         email: user?.emailAddresses[0].emailAddress as string,
-        username: user?.username || '',
+        username: user?.username || user?.firstName!,
         createdAt: new Date(),
         updatedAt: new Date(),
       },

@@ -10,7 +10,13 @@ export const GET = async () => {
         id: clerkUser?.id,
       },
       include: {
-        playlists: true,
+        playlists: {
+          include: {
+            channels: true,
+            ownerChannel: true,
+            videos: true,
+          },
+        },
       },
     });
     return NextResponse.json(user);
