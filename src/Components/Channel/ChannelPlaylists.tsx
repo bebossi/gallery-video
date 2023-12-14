@@ -1,7 +1,7 @@
 'use client';
 import { formatDate } from '@/src/lib/formatDate';
 import { formatNumber } from '@/src/lib/formatNumber';
-import { Channel, Playlist, Video } from '@prisma/client';
+import { Channel, Playlist, User, Video } from '@prisma/client';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y, Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -10,19 +10,27 @@ import 'swiper/css/navigation';
 import SlidePreviousButton from '../SlidePreviousButton';
 import SlideNextButton from '../SlideNextButton';
 import { AiFillCaretRight } from 'react-icons/ai';
+import Image from 'next/image';
 
 interface ChannelVideoProps {
-  channel: Channel & {
+  channel?: Channel & {
     videos: Video[];
     myPlaylists: (Playlist & {
       videos: Video[];
     })[];
   };
+  user?: User & {
+    playlists: (Playlist & {
+      videos: Video[];
+    })[];
+  };
 }
-const ChannelPlaylists: React.FC<ChannelVideoProps> = ({ channel }) => {
+const ChannelPlaylists: React.FC<ChannelVideoProps> = ({ channel, user }) => {
+  const playlistsToRender = channel?.myPlaylists || user?.playlists || [];
+
   return (
     <div className="flex flex-col ">
-      {channel.myPlaylists.map((playlist) => (
+      {playlistsToRender.map((playlist: Playlist & { videos: Video[] }) => (
         <div key={playlist.id} className="flex flex-col ">
           <h1 className="flex text-2xl my-[1rem] gap-x-2">
             {playlist.name}{' '}
@@ -55,9 +63,12 @@ const ChannelPlaylists: React.FC<ChannelVideoProps> = ({ channel }) => {
                       key={video.id}
                       className="w-[12rem] h-[12rem] md:w-[15rem] md:h-[15rem]  gap-3 hover:cursor-pointer"
                     >
-                      <img
+                      <Image
                         className="md:w-[12rem] lg:w-[14rem] xl:w-[18rem] rounded-2xl"
                         src={video.thumbnailUrl!}
+                        alt={''}
+                        width={1200}
+                        height={800}
                       />
                       <h1 className="w-fit line-clamp-2">{video.title}</h1>
                       <p className="absolute w-full">

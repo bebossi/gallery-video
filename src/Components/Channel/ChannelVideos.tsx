@@ -8,6 +8,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y, Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import Image from 'next/image';
 import 'swiper/css/navigation';
 import SlideNextButton from '../SlideNextButton';
 import SlidePreviousButton from '../SlidePreviousButton';
@@ -49,9 +50,12 @@ const ChannelVideos: React.FC<ChannelVideoProps> = ({ channel }) => {
               <Link key={video.id} href={`/videos/${video.id}`}>
                 <SwiperSlide key={video.id}>
                   <div className="w-[12rem] h-[12rem] md:w-[15rem] md:h-[15rem]  gap-3 hover:cursor-pointer">
-                    <img
+                    <Image
                       className="md:w-[12rem] lg:w-[14rem] xl:w-[18rem] rounded-2xl"
                       src={video.thumbnailUrl!}
+                      alt={''}
+                      width={1200}
+                      height={800}
                     />
                     <h1 className="w-fit line-clamp-2">{video.title}</h1>
                     <p className="absolute w-full">
