@@ -12,7 +12,7 @@ import SlideNextButton from '../SlideNextButton';
 import { AiFillCaretRight } from 'react-icons/ai';
 import Image from 'next/image';
 
-interface ChannelVideoProps {
+interface PlaylistVideosCarouselProps {
   channel?: Channel & {
     videos: Video[];
     myPlaylists: (Playlist & {
@@ -25,7 +25,10 @@ interface ChannelVideoProps {
     })[];
   };
 }
-const ChannelPlaylists: React.FC<ChannelVideoProps> = ({ channel, user }) => {
+const PlaylistVideosCarousel: React.FC<PlaylistVideosCarouselProps> = ({
+  channel,
+  user,
+}) => {
   const playlistsToRender = channel?.myPlaylists || user?.playlists || [];
 
   return (
@@ -94,4 +97,4 @@ const ChannelPlaylists: React.FC<ChannelVideoProps> = ({ channel, user }) => {
   );
 };
 
-export default ChannelPlaylists;
+export default PlaylistVideosCarousel;
