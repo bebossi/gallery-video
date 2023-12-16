@@ -18,6 +18,16 @@ model User {
   updatedAt DateTime
 
   playlists Playlist[]
+  galleries PlaylistGallery[]
+}
+
+model PlaylistGallery {
+  id        String     @id @default(uuid())
+  name      String
+  playlists Playlist[]
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 model Video {
@@ -78,10 +88,11 @@ model Playlist {
   thumbnailHeight Int?
   ownerChannelId  String
 
-  ownerChannel Channel   @relation(name: "OwnerChannel", fields: [ownerChannelId], references: [id])
-  channels     Channel[] @relation(name: "PlaylistToChannel")
+  ownerChannel Channel           @relation(name: "OwnerChannel", fields: [ownerChannelId], references: [id])
+  channels     Channel[]         @relation(name: "PlaylistToChannel")
   videos       Video[]
   users        User[]
+  galleries    PlaylistGallery[]
 }
 
 model SearchQuery {
