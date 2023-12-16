@@ -1,15 +1,18 @@
 'use client';
-import ChannelPlaylists from '@/src/Components/Channel/ChannelPlaylists';
-import DisplayPlaylists from '@/src/Components/Playlist/DisplayPlaylists';
+import PlaylistCarousel from '@/src/Components/Carousel/PlaylistCarousel';
 import { User, Playlist, Video, Channel } from '@prisma/client';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import PlaylistVideosCarousel from '@/src/Components/Carousel/PlaylistVideosCarousel';
 
 const UserPage = () => {
   const [user, setUser] = useState<
     User & {
       playlists: (Playlist & {
+        ownerChannel: Channel;
         videos: Video[];
+        channels: Channel[];
+        users: User[];
       })[];
     }
   >();
@@ -37,7 +40,10 @@ const UserPage = () => {
         <input className="text-black p-1" value={user?.username} />{' '}
       </div>
       <div>
-        <ChannelPlaylists key={user?.id} user={user} />
+        <PlaylistCarousel user={user} />
+      </div>
+      <div>
+        <PlaylistVideosCarousel key={user?.id} user={user} />
       </div>
     </div>
   );
