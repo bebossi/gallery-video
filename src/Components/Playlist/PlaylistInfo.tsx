@@ -1,6 +1,7 @@
 'use client';
 import { Channel, Playlist, User, Video } from '@prisma/client';
 import axios from 'axios';
+import Image from 'next/image';
 import Link from 'next/link';
 import { IoIosAddCircle, IoIosRemoveCircle } from 'react-icons/io';
 
@@ -40,7 +41,9 @@ const PlaylistInfo: React.FC<PlaylistInfoProps> = ({ playlist, isSaved }) => {
         href={`/playlists/${playlist.id}/${playlist.videos[0].id}`}
       >
         <div className="group relative flex flex-col items-center justify-center w-full rounded-full ">
-          <img
+          <Image
+            width={1200}
+            height={800}
             className="h-fit w-fit my-9 rounded-2xl  group-hover:opacity-20"
             src={playlist.thumbnailUrl!}
             alt={`${playlist.name} thumbnail`}
@@ -67,7 +70,7 @@ const PlaylistInfo: React.FC<PlaylistInfoProps> = ({ playlist, isSaved }) => {
         <h2 className="font-semibold text-xl sm:text-2xl">{playlist.status}</h2>
         <p className="text-sm sm:text-base">{playlist.videos.length} videos</p>
         <p className="text-sm sm:text-base">
-          {playlist.description || 'Playlist sem descrição'}
+          {playlist.description || 'Playlist without description'}
         </p>
       </div>
     </div>

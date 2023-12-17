@@ -11,12 +11,18 @@ interface PlaylistCarouselProps {
   channel?: Channel & {
     videos: Video[];
     myPlaylists: (Playlist & {
+      ownerChannel: Channel;
       videos: Video[];
+      channels: Channel[];
+      users: User[];
     })[];
   };
   user?: User & {
     playlists: (Playlist & {
+      ownerChannel: Channel;
       videos: Video[];
+      channels: Channel[];
+      users: User[];
     })[];
   };
 }

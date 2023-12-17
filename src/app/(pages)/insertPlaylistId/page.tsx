@@ -7,7 +7,6 @@ const InsertPlaylistId = () => {
   const navigate = useRouter();
   const [videos, setVideos] = useState<any>();
   const [playlistId, setPlaylistId] = useState('');
-
   const handlePlaylistId = async (e: any) => {
     e.preventDefault();
     try {

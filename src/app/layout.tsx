@@ -9,9 +9,9 @@ import { redirect, usePathname } from 'next/navigation';
 import Sidebar from '../Components/Sidebar/Sidebar';
 import FilterModal from '../Components/Filters/FilterModal';
 import SearchModal from '../Components/Search/SearchModal';
-import { ClerkProvider, UserButton } from '@clerk/nextjs';
 import { useEffect } from 'react';
 import axios from 'axios';
+import { ClerkProvider, UserButton } from '@clerk/nextjs';
 
 // const inter = Inter({ subsets: ['latin'] });
 
