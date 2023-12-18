@@ -22,6 +22,7 @@ const UserPage = () => {
       try {
         const response = await axios.get('/api/getUser');
         setUser(response.data);
+        localStorage.setItem('user', JSON.stringify(response.data));
       } catch (err) {
         console.log(err);
       }
@@ -35,9 +36,9 @@ const UserPage = () => {
         <p>Manage your account</p>
         <hr className="h-1 " />
       </div>
-      <div>
+      <div className="flex flex-col mb-[1.5rem] gap-y-1">
         <label>Username</label>
-        <input className="text-black p-1" value={user?.username} />{' '}
+        <input className="text-black p-1 w-1/6" value={user?.username} />{' '}
       </div>
       <div>
         <PlaylistCarousel user={user} />

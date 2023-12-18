@@ -30,7 +30,7 @@ const CategoyFilter: React.FC<CategoryFilterProps> = ({ selectedCategory }) => {
     <>
       <div className="relative inline-flex m-[1rem]">
         <select
-          defaultValue="Select a category"
+          // defaultValue="Select a category"
           value={selectedCategory}
           onChange={handleCategoryChange}
           className=" bg-white border border-gray-300 rounded-md p-2 pr-8 text-sm focus:outline-none focus:ring focus:border-blue-300 text-black"

@@ -12,6 +12,7 @@ import SearchModal from '../Components/Search/SearchModal';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { ClerkProvider, UserButton } from '@clerk/nextjs';
+import GalleryPlaylistsModal from '../Components/GalleryPlaylists/galleryPlaylistsModal';
 
 // const inter = Inter({ subsets: ['latin'] });
 
@@ -42,6 +43,7 @@ export default function RootLayout({
           <Sidebar />
           <FilterModal />
           <SearchModal />
+          <GalleryPlaylistsModal />
           <div className="fixed top-[3.75rem] right-3 z-50">
             <UserButton />
           </div>

@@ -3,7 +3,6 @@ import DisplayVideo from '@/src/Components/Videos/DisplayVideo';
 import { isPlaylistSaved } from '@/src/app/api/isPlaylistSaved/route';
 import prismadb from '@/src/lib/prismadb';
 import { currentUser } from '@clerk/nextjs/server';
-import { Video } from '@prisma/client';
 
 interface PlaylistPageProps {
   params: {

@@ -3,6 +3,7 @@ import { Channel, Playlist, User, Video } from '@prisma/client';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { IoIosAddCircle, IoIosRemoveCircle } from 'react-icons/io';
 
 export interface PlaylistInfoProps {
@@ -15,11 +16,14 @@ export interface PlaylistInfoProps {
   isSaved?: boolean;
 }
 const PlaylistInfo: React.FC<PlaylistInfoProps> = ({ playlist, isSaved }) => {
+  const router = useRouter();
+
   const savePlaylist = async () => {
     try {
       await axios.put('/api/savePlaylist', {
         playlistId: playlist.id,
       });
+      router.refresh();
     } catch (err) {
       console.log(err);
     }
@@ -29,6 +33,7 @@ const PlaylistInfo: React.FC<PlaylistInfoProps> = ({ playlist, isSaved }) => {
       await axios.put('/api/unsavePlaylist', {
         playlistId: playlist.id,
       });
+      router.refresh();
     } catch (err) {
       console.log(err);
     }

@@ -17,6 +17,7 @@ export const GET = async () => {
             videos: true,
           },
         },
+        galleries: true,
       },
     });
     return NextResponse.json(user);

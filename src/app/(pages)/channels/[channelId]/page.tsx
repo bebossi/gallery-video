@@ -1,6 +1,6 @@
 import ChannelInfo from '@/src/Components/Channel/ChannelInfo';
 import ChannelNav from '@/src/Components/Channel/ChannelNav';
-import ChannelPlaylists from '@/src/Components/Channel/ChannelPlaylists';
+import ChannelPlaylists from '@/src/Components/Carousel/PlaylistVideosCarousel';
 import ChannelVideos from '@/src/Components/Channel/ChannelVideos';
 import prismadb from '@/src/lib/prismadb';
 

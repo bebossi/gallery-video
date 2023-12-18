@@ -1,11 +1,10 @@
 import React from 'react';
-import { getPlaylistsFromDB } from '../../api/playlists/route';
-import Link from 'next/link';
+import { GET } from '../../api/playlists/route';
 import { Channel, Playlist, User, Video } from '@prisma/client';
 import DisplayPlaylists from '@/src/Components/Playlist/DisplayPlaylists';
 
 const PlaylistPage = async () => {
-  const playlists = await getPlaylistsFromDB();
+  const playlists = await GET();
 
   return (
     <div className="flex flex-col gap-x-12 items-start  ">
