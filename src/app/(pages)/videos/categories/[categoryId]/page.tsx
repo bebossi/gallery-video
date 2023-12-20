@@ -1,6 +1,5 @@
 'use client';
 
-import VideoInfo from '@/src/Components/Videos/VideoInfo';
 import React, { useEffect, useState } from 'react';
 import { Video } from '@prisma/client';
 import axios from 'axios';
@@ -20,9 +19,7 @@ const CategoryVideos: React.FC<CategoryVideosProps> = ({ params }) => {
     const fetchData = async () => {
       if (params.categoryId) {
         try {
-          const response = await axios.get(
-            `/api/categoryVideos/${params.categoryId}`,
-          );
+          const response = await axios.get(`/api/videos/${params.categoryId}`);
           setVideos(response.data);
         } catch (error) {
           console.error('Error fetching videos:', error);
@@ -35,7 +32,7 @@ const CategoryVideos: React.FC<CategoryVideosProps> = ({ params }) => {
     <div>
       <CategoyFilter selectedCategory={params.categoryId} />
       {videos?.map((video: Video) => (
-        <DisplayVideo video={video!} />
+        <DisplayVideo key={video.id} video={video!} />
       ))}
     </div>
   );

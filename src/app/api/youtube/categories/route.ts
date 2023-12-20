@@ -1,4 +1,3 @@
-import { NextApiResponse } from 'next';
 import prismadb from '@/src/lib/prismadb';
 import axios from 'axios';
 import { NextResponse } from 'next/server';

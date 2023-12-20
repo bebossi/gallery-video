@@ -1,13 +1,16 @@
 import prismadb from '@/src/lib/prismadb';
-import { auth } from '@clerk/nextjs';
+import { auth, currentUser } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
 
-export const GET = async (req: Request) => {
+export const POST = async (req: Request) => {
   try {
-    const gallery = await prismadb.playlistGallery.findMany({
-      include: {
-        playlists: true,
-        user: true,
+    const { name } = await req.json();
+    const clerkUser = await currentUser();
+
+    const gallery = await prismadb.playlistGallery.create({
+      data: {
+        name: name,
+        userId: clerkUser!.id,
       },
     });
 
@@ -18,20 +21,12 @@ export const GET = async (req: Request) => {
   }
 };
 
-export const PUT = async (req: Request) => {
+export const GET = async (req: Request) => {
   try {
-    const { galleryId, playlistId, action } = await req.json();
-
-    const gallery = await prismadb.playlistGallery.update({
-      where: {
-        id: galleryId,
-      },
-      data: {
-        playlists: {
-          [action]: {
-            id: playlistId,
-          },
-        },
+    const gallery = await prismadb.playlistGallery.findMany({
+      include: {
+        playlists: true,
+        user: true,
       },
     });
 

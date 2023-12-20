@@ -1,19 +1,23 @@
 import prismadb from '@/src/lib/prismadb';
 import { currentUser } from '@clerk/nextjs/server';
-import { NextRequest, NextResponse } from 'next/server';
-
-export const PUT = async (req: NextRequest) => {
-  const { playlistId } = await req.json();
+import { NextResponse } from 'next/server';
+export const PUT = async (
+  req: Request,
+  { params }: { params: { playlistId: string } },
+) => {
   const clerkUser = await currentUser();
+
+  const { action } = await req.json();
+
   try {
     const playlist = await prismadb.playlist.update({
       where: {
-        id: playlistId,
+        id: params.playlistId as string,
       },
       data: {
         users: {
-          disconnect: {
-            id: clerkUser?.id,
+          [action]: {
+            id: clerkUser?.id as string,
           },
         },
       },
