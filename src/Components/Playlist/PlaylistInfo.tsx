@@ -18,20 +18,10 @@ export interface PlaylistInfoProps {
 const PlaylistInfo: React.FC<PlaylistInfoProps> = ({ playlist, isSaved }) => {
   const router = useRouter();
 
-  const savePlaylist = async () => {
+  const addOrRemovePlaylist = async (action: 'connect' | 'disconnect') => {
     try {
-      await axios.put('/api/savePlaylist', {
-        playlistId: playlist.id,
-      });
-      router.refresh();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const unsavePlaylist = async () => {
-    try {
-      await axios.put('/api/unsavePlaylist', {
-        playlistId: playlist.id,
+      await axios.put(`/api/playlists/${playlist.id}`, {
+        action: action,
       });
       router.refresh();
     } catch (err) {
@@ -60,11 +50,17 @@ const PlaylistInfo: React.FC<PlaylistInfoProps> = ({ playlist, isSaved }) => {
       </Link>
       <div className="flex flex-col justify-start items-start w-full lg:pl-[1rem] ">
         {isSaved ? (
-          <button title="Remove playlist" onClick={unsavePlaylist}>
+          <button
+            title="Remove playlist"
+            onClick={() => addOrRemovePlaylist('disconnect')}
+          >
             <IoIosRemoveCircle size={25} />
           </button>
         ) : (
-          <button title="Save playlist" onClick={savePlaylist}>
+          <button
+            title="Save playlist"
+            onClick={() => addOrRemovePlaylist('connect')}
+          >
             <IoIosAddCircle size={25} />
           </button>
         )}
