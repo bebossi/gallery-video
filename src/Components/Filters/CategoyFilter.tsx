@@ -15,7 +15,7 @@ const CategoyFilter: React.FC<CategoryFilterProps> = ({ selectedCategory }) => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const response = await axios.get('/api/allCategories');
+      const response = await axios.get('/api/categories');
       setCategories(response.data);
     };
     fetchCategories();
@@ -23,7 +23,7 @@ const CategoyFilter: React.FC<CategoryFilterProps> = ({ selectedCategory }) => {
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCategoryId = e.target.value;
     if (selectedCategoryId) {
-      router.push(`/${selectedCategoryId}`);
+      router.push(`/videos/categories/${selectedCategoryId}`);
     }
   };
   return (

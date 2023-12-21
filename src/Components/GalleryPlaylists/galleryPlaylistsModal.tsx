@@ -16,7 +16,7 @@ const GalleryPlaylistsModal = () => {
 
   useEffect(() => {
     const fetchGalleries = async () => {
-      const response = await axios.get('/api/galleries');
+      const response = await axios.get('/api/galleries/user');
       setGalleries(response.data);
     };
 
@@ -30,10 +30,8 @@ const GalleryPlaylistsModal = () => {
     const action = isChecked ? 'disconnect' : 'connect';
 
     try {
-      await axios.put('/api/galleries', {
-        playlistId: playlistId,
+      await axios.put(`/api/playlists/${playlistId}/galleries/${galleryId}`, {
         action: action,
-        galleryId: galleryId,
       });
       router.refresh();
     } catch (err) {
@@ -43,7 +41,7 @@ const GalleryPlaylistsModal = () => {
 
   const createGallery = async () => {
     try {
-      await axios.post('/api/createGallery', {
+      await axios.post('/api/galleries/user', {
         name: nameRef.current,
       });
       setShowCreateGalleryInput(false);

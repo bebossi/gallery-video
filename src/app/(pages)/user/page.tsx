@@ -20,7 +20,7 @@ const UserPage = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get('/api/getUser');
+        const response = await axios.get('/api/users');
         setUser(response.data);
         localStorage.setItem('user', JSON.stringify(response.data));
       } catch (err) {

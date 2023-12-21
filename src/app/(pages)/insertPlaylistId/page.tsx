@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import Image from 'next/image';
 
 const InsertPlaylistId = () => {
   const navigate = useRouter();
@@ -10,9 +11,7 @@ const InsertPlaylistId = () => {
   const handlePlaylistId = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await axios.get(
-        `/api/insertPlaylistId?id=${playlistId}`,
-      );
+      const response = await axios.get(`/api/youtube/playlists/${playlistId}`);
 
       setVideos(response.data);
     } catch (err) {
@@ -41,7 +40,10 @@ const InsertPlaylistId = () => {
               key={video.id}
             >
               <h3>{video.snippet.title}</h3>
-              <img
+              <Image
+                height={800}
+                width={1200}
+                alt={video.title}
                 className="border border-gray-400 w-full h-full"
                 src={video.snippet.thumbnails.medium.url}
               />
