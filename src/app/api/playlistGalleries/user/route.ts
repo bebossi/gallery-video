@@ -1,5 +1,5 @@
 import prismadb from '@/src/lib/prismadb';
-import { auth, currentUser } from '@clerk/nextjs';
+import { currentUser } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
 
 export const POST = async (req: Request) => {
@@ -22,8 +22,13 @@ export const POST = async (req: Request) => {
 };
 
 export const GET = async (req: Request) => {
+  const clerkUser = await currentUser();
+
   try {
     const gallery = await prismadb.playlistGallery.findMany({
+      where: {
+        userId: clerkUser?.id,
+      },
       include: {
         playlists: true,
         user: true,
