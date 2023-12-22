@@ -2,14 +2,18 @@
 import { Category } from '@prisma/client';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
 
 interface CategoryFilterProps {
   selectedCategory?: string;
+  onChange?: (categoryId: string) => void;
 }
 
-const CategoyFilter: React.FC<CategoryFilterProps> = ({ selectedCategory }) => {
+const CategoyFilter: React.FC<CategoryFilterProps> = ({
+  selectedCategory,
+  onChange,
+}) => {
   const [categories, setCategories] = useState<any[]>();
   const router = useRouter();
 
@@ -20,11 +24,15 @@ const CategoyFilter: React.FC<CategoryFilterProps> = ({ selectedCategory }) => {
     };
     fetchCategories();
   }, []);
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  // const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   const selectedCategoryId = e.target.value;
+  //   if (selectedCategoryId) {
+  //     router.push(`/videos/categories/${selectedCategoryId}`);
+  //   }
+  // };
+  const handleCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedCategoryId = e.target.value;
-    if (selectedCategoryId) {
-      router.push(`/videos/categories/${selectedCategoryId}`);
-    }
+    onChange && onChange(selectedCategoryId);
   };
   return (
     <>
@@ -32,7 +40,7 @@ const CategoyFilter: React.FC<CategoryFilterProps> = ({ selectedCategory }) => {
         <select
           // defaultValue="Select a category"
           value={selectedCategory}
-          onChange={handleCategoryChange}
+          onChange={(e) => handleCategoryChange(e)}
           className=" bg-white border border-gray-300 rounded-md p-2 pr-8 text-sm focus:outline-none focus:ring focus:border-blue-300 text-black"
         >
           <option value="videos">Select a category</option>

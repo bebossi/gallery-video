@@ -2,7 +2,7 @@ import prismadb from '@/src/lib/prismadb';
 import axios from 'axios';
 import { NextResponse } from 'next/server';
 
-export async function GET() {
+export async function GET(req: Request) {
   const url = `https://youtube.googleapis.com/youtube/v3/videoCategories?part=snippet&regionCode=US&key=${process.env.API_KEY_YOUTUBE}`;
   try {
     const response = await axios.get(url);
@@ -15,6 +15,7 @@ export async function GET() {
         },
       });
     }
+    console.log(response);
     return NextResponse.json(response.data);
   } catch (err) {
     console.log(err);

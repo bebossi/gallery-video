@@ -2,21 +2,26 @@ import useGalleryPlaylistModal from '@/src/Hooks/useGalleryPlaylistModal';
 import { Playlist, PlaylistGallery, User } from '@prisma/client';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
+import CategoyFilter from '../Filters/CategoyFilter';
 
 const GalleryPlaylistsModal = () => {
   const router = useRouter();
-  const nameRef = useRef('');
   const { isOpen, playlistId, onClose } = useGalleryPlaylistModal();
   const [showCreateGalleryInput, setShowCreateGalleryInput] = useState(false);
+  const [form, setForm] = useState({
+    name: '',
+    description: '',
+    categoryId: '',
+  });
   const [galleries, setGalleries] = useState<
     Array<PlaylistGallery & { playlists: Playlist[] }>
   >([]);
 
   useEffect(() => {
     const fetchGalleries = async () => {
-      const response = await axios.get('/api/galleries/user');
+      const response = await axios.get('/api/playlistGalleries/user');
       setGalleries(response.data);
     };
 
@@ -41,8 +46,11 @@ const GalleryPlaylistsModal = () => {
 
   const createGallery = async () => {
     try {
-      await axios.post('/api/galleries/user', {
-        name: nameRef.current,
+      console.log(form);
+      await axios.post('/api/playlistGalleries/user', {
+        name: form.name,
+        desciprtion: form.description,
+        categoryId: form.categoryId,
       });
       setShowCreateGalleryInput(false);
     } catch (err) {
@@ -51,6 +59,9 @@ const GalleryPlaylistsModal = () => {
     }
   };
 
+  const selectCategoryId = (categoryId: string) => {
+    setForm((prevForm) => ({ ...prevForm, categoryId }));
+  };
   return (
     <>
       {isOpen && (
@@ -102,8 +113,20 @@ const GalleryPlaylistsModal = () => {
             <>
               <input
                 className="text-black"
-                onChange={(e) => (nameRef.current = e.target.value)}
+                onChange={(e) =>
+                  setForm((prevForm) => ({ ...prevForm, name: e.target.value }))
+                }
               />
+              <input
+                className="text-black"
+                onChange={(e) =>
+                  setForm((prevForm) => ({
+                    ...prevForm,
+                    description: e.target.value,
+                  }))
+                }
+              />
+              <CategoyFilter onChange={selectCategoryId} />
               <button onClick={() => createGallery()}>Create</button>
             </>
           )}

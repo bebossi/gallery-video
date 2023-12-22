@@ -22,12 +22,16 @@ model User {
 }
 
 model PlaylistGallery {
-  id        String     @id @default(uuid())
-  name      String
-  playlists Playlist[]
+  id          String  @id @default(uuid())
+  name        String
+  description String?
+  thumbnail   String?
+  categoryId  String
 
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  category  Category   @relation(fields: [categoryId], references: [id])
+  playlists Playlist[]
+  userId    String
+  user      User       @relation(fields: [userId], references: [id])
 }
 
 model Video {
@@ -53,9 +57,10 @@ model Video {
 }
 
 model Category {
-  id     String  @id
-  title  String
-  videos Video[]
+  id                String            @id
+  title             String
+  videos            Video[]
+  playlistGalleries PlaylistGallery[]
 }
 
 model Channel {

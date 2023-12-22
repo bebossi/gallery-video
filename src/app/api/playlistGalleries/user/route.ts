@@ -4,13 +4,14 @@ import { NextResponse } from 'next/server';
 
 export const POST = async (req: Request) => {
   try {
-    const { name } = await req.json();
+    const { name, categoryId, description } = await req.json();
     const clerkUser = await currentUser();
-
     const gallery = await prismadb.playlistGallery.create({
       data: {
         name: name,
         userId: clerkUser!.id,
+        categoryId: categoryId,
+        description: description,
       },
     });
 
