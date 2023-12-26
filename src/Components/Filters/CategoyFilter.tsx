@@ -1,9 +1,7 @@
 'use client';
-import { Category } from '@prisma/client';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
 
 interface CategoryFilterProps {
   selectedCategory?: string;
@@ -15,8 +13,6 @@ const CategoyFilter: React.FC<CategoryFilterProps> = ({
   onChange,
 }) => {
   const [categories, setCategories] = useState<any[]>();
-  const router = useRouter();
-
   useEffect(() => {
     const fetchCategories = async () => {
       const response = await axios.get('/api/categories');
@@ -24,12 +20,7 @@ const CategoyFilter: React.FC<CategoryFilterProps> = ({
     };
     fetchCategories();
   }, []);
-  // const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const selectedCategoryId = e.target.value;
-  //   if (selectedCategoryId) {
-  //     router.push(`/videos/categories/${selectedCategoryId}`);
-  //   }
-  // };
+
   const handleCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedCategoryId = e.target.value;
     onChange && onChange(selectedCategoryId);

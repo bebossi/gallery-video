@@ -5,6 +5,7 @@ import { Video } from '@prisma/client';
 import axios from 'axios';
 import DisplayVideo from '@/src/Components/Videos/DisplayVideo';
 import CategoyFilter from '@/src/Components/Filters/CategoyFilter';
+import { useRouter } from 'next/navigation';
 
 interface CategoryVideosProps {
   params: {
@@ -13,6 +14,7 @@ interface CategoryVideosProps {
 }
 
 const CategoryVideos: React.FC<CategoryVideosProps> = ({ params }) => {
+  const router = useRouter();
   const [videos, setVideos] = useState<Video[] | null>(null);
 
   useEffect(() => {
@@ -21,6 +23,7 @@ const CategoryVideos: React.FC<CategoryVideosProps> = ({ params }) => {
         try {
           const response = await axios.get(`/api/videos/${params.categoryId}`);
           setVideos(response.data);
+          console.log(response.data);
         } catch (error) {
           console.error('Error fetching videos:', error);
         }
@@ -28,9 +31,18 @@ const CategoryVideos: React.FC<CategoryVideosProps> = ({ params }) => {
     };
     fetchData();
   }, [params.categoryId]);
+
+  const onChange = (categoryId: string) => {
+    try {
+      router.push(`/videos/categories/${categoryId}`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div>
-      <CategoyFilter selectedCategory={params.categoryId} />
+      <CategoyFilter selectedCategory={params.categoryId} onChange={onChange} />
       {videos?.map((video: Video) => (
         <DisplayVideo key={video.id} video={video!} />
       ))}
